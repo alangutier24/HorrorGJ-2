@@ -19,6 +19,8 @@ public class CharacterMovement : MonoBehaviour
     float moveX;
     bool sprinting;
 
+    public IInteractable Interactable {get; set;}
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -40,6 +42,11 @@ public class CharacterMovement : MonoBehaviour
         float speed = Mathf.Abs(rb.linearVelocity.x);
         anim.SetFloat(SpeedHash, speed);
         anim.SetBool(IsRunningHash, sprinting && speed > 0.1f);
+
+        if(Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            Interactable?.Interact();
+        }
         
     }
 

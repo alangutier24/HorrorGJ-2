@@ -9,19 +9,25 @@ public class DialoguePanelUI : MonoBehaviour
     [SerializeField] 
     private TMP_Text textLabel;
     [SerializeField]
-    private DialogueObject testDialogue;
-    [SerializeField]
     private GameObject dialogueBox;
+
+    public bool IsOpen{get; private set;}
 
     private ResponseHandler responseHandler;
     private TypeWritterEffect typeWritterEffect;
 
+    void Awake()
+    {
+        dialogueBox = GameObject.Find("DialogueCanvas");
+        textLabel = GameObject.Find("Dialogue").GetComponent<TMP_Text>();
+        typeWritterEffect = FindFirstObjectByType<TypeWritterEffect>();
+        responseHandler = FindFirstObjectByType<ResponseHandler>();
+        dialogueBox.SetActive(false);
+    }
+
     void Start()
     {
-        typeWritterEffect = GetComponent<TypeWritterEffect>();
-        responseHandler = GetComponent<ResponseHandler>();
-        ShowDialogue(testDialogue);
-    
+        IsOpen = true;
     }
 
     public void ShowDialogue(DialogueObject dialogueObject)
@@ -44,10 +50,12 @@ public class DialoguePanelUI : MonoBehaviour
 
         if(dialogueObject.HasResponses)
         {
+            Debug.Log("Has responses");
             responseHandler.ShowRespones(dialogueObject.Responses);
         }
         else
         {
+            Debug.Log("Does not have responses");
             CloseDialogueBox();
         }
 
@@ -55,6 +63,8 @@ public class DialoguePanelUI : MonoBehaviour
 
     private void CloseDialogueBox()
     {
+        Debug.Log("Close box");
+        IsOpen = false;
         dialogueBox.SetActive(false);
         textLabel.text = string.Empty;
     }
