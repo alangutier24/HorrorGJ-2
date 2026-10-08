@@ -10,19 +10,29 @@ public class TypeWritterEffect : MonoBehaviour
     [SerializeField]
     private float typeWritterSpeed = 50f;
 
+    public bool isRunning = false;
+
     Dictionary<char, float> punctuations = new Dictionary<char, float>()
     {
         {'.', 0.3f}, {',', 0.3f}, 
         {'?', 0.6f}, {'!', 0.6f}
     };
 
-    public Coroutine Run(string textToType, TMP_Text textLabel)
+    private Coroutine typeCorroutine;
+    public void Run(string textToType, TMP_Text textLabel)
     {
-        return StartCoroutine(TypeText(textToType, textLabel));
+        typeCorroutine = StartCoroutine(TypeText(textToType, textLabel));
+    }
+
+    public void Stop()
+    {
+        StopCoroutine(typeCorroutine);
+        isRunning = false;
     }
 
     private IEnumerator TypeText(string textToType, TMP_Text textLabel)
     {
+        isRunning = true;
 
         textLabel.text = string.Empty;
     
@@ -53,7 +63,7 @@ public class TypeWritterEffect : MonoBehaviour
             yield return null;
         }
 
-        textLabel.text = textToType;
+        isRunning = false;
 
     }
 

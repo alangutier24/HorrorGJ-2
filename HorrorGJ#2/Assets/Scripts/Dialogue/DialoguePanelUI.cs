@@ -44,10 +44,13 @@ public class DialoguePanelUI : MonoBehaviour
         {
             string dialogue = dialogueObject.Dialogue[i];
 
-            yield return typeWritterEffect.Run(dialogue, textLabel);
+            yield return RunTypingEffect(dialogue);
+
+            textLabel.text = dialogue;
 
             if(i == dialogueObject.Dialogue.Length - 1 && dialogueObject.HasResponses) break;
 
+            yield return null;
             yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame);
         }
 
@@ -60,6 +63,19 @@ public class DialoguePanelUI : MonoBehaviour
             CloseDialogueBox();
         }
 
+    }
+
+    private IEnumerator RunTypingEffect(string dialogue)
+    {
+        typeWritterEffect.Run(dialogue, textLabel);
+
+        while(typeWritterEffect.isRunning)
+        {
+            yield return null;
+
+            if(Keyboard.current.spaceKey.wasPressedThisFrame)
+                typeWritterEffect.Stop();
+        }
     }
 
     private void CloseDialogueBox()
