@@ -18,7 +18,7 @@ MonoBehaviour:
     It should work.'
   - 'This is now dialogue two!
 
-    Hurray '
+    Hurray!'
   responses:
   - responseText: Yes
     dialogueObject: {fileID: 11400000, guid: 50f07036d4a714a15ab751a8370caed2, type: 2}

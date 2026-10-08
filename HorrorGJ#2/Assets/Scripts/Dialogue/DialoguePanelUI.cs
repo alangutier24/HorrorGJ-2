@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using UnityEngine.InputSystem;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 public class DialoguePanelUI : MonoBehaviour
 {
@@ -41,21 +43,20 @@ public class DialoguePanelUI : MonoBehaviour
         for(int i=0; i<dialogueObject.Dialogue.Length; i++)
         {
             string dialogue = dialogueObject.Dialogue[i];
+
             yield return typeWritterEffect.Run(dialogue, textLabel);
 
-            if(i== dialogueObject.Dialogue.Length - 1 && dialogueObject.HasResponses) break;
+            if(i == dialogueObject.Dialogue.Length - 1 && dialogueObject.HasResponses) break;
 
             yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame);
         }
 
         if(dialogueObject.HasResponses)
         {
-            Debug.Log("Has responses");
             responseHandler.ShowRespones(dialogueObject.Responses);
         }
         else
         {
-            Debug.Log("Does not have responses");
             CloseDialogueBox();
         }
 
@@ -63,7 +64,6 @@ public class DialoguePanelUI : MonoBehaviour
 
     private void CloseDialogueBox()
     {
-        Debug.Log("Close box");
         IsOpen = false;
         dialogueBox.SetActive(false);
         textLabel.text = string.Empty;
