@@ -19,6 +19,8 @@ public class CharacterMovement : MonoBehaviour
     float moveX;
     bool sprinting;
 
+    public bool medCamIsActive = false;
+
     public IInteractable Interactable {get; set;}
 
     void Awake()
@@ -33,6 +35,8 @@ public class CharacterMovement : MonoBehaviour
         
     void Update()
     {
+        if(medCamIsActive) return;
+
         moveX = moveAction.ReadValue<Vector2>().x;
         sprinting = sprintAction.IsPressed();
 
@@ -52,6 +56,11 @@ public class CharacterMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(medCamIsActive)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
         float speed = sprinting ? sprintSpeed : walkSpeed;
         rb.linearVelocity = new Vector2(moveX * speed, rb.linearVelocity.y);
     }

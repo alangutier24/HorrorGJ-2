@@ -53,7 +53,6 @@ public class TypeWritterEffect : MonoBehaviour
 
             if(punctuations.ContainsKey(textToType[charIndex]) && !isLast && !punctuations.ContainsKey(textToType[charIndex + 1]))
             {
-                UnityEngine.Debug.Log(elapsed);
                 waitTime = punctuations[textToType[charIndex]];
                 elapsed += waitTime;
                 yield return new WaitForSeconds(waitTime);

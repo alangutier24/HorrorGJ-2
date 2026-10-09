@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: TestDialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
   dialogue:
-  - 'This is dialogue one!
-
-    It should work.'
-  - 'This is now dialogue two!
-
-    Hurray!'
+  - Halt! None shall pass!
+  - '...Unless you have a reason. Or a snack. I''m flexible. '
   responses:
-  - responseText: Yes
+  - responseText: Why are you guarding the bridge?
     dialogueObject: {fileID: 11400000, guid: 50f07036d4a714a15ab751a8370caed2, type: 2}
-  - responseText: No
+  - responseText: Nice helmet
     dialogueObject: {fileID: 11400000, guid: 65a9e67feaa0c48bc977eb0626ad6091, type: 2}
+  - responseText: I have a snack
+    dialogueObject: {fileID: 11400000, guid: 65a9e67feaa0c48bc977eb0626ad6091, type: 2}
+  - responseText: I'm passing whether you like it or not
+    dialogueObject: {fileID: 11400000, guid: ad4d213f5d3884b49928124a44e20069, type: 2}

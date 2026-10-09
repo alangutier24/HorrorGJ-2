@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b013548fcefd47878e33d3f05761195, type: 3}
-  m_Name: Yes
+  m_Name: Sandwich
   m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
   dialogue:
-  - The answer is Yes!
+  - ' A sandwich... just like the King''s...'
+  - 'You may pass. Tell him I said hi... If you see him. '
   responses: []

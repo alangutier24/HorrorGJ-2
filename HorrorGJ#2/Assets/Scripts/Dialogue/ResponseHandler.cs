@@ -27,19 +27,26 @@ public class ResponseHandler : MonoBehaviour
     {
         float responseBoxHeight = 0f;
 
+        float maxWidth = 0;
+
         foreach(Response response in responses)
         {
             GameObject responseButton = Instantiate(responseButtonTemplate.gameObject, responseContainer);
             responseButton.gameObject.SetActive(true);
             responseButton.GetComponent<TMP_Text>().text = response.ResponseText;
             responseButton.GetComponent<Button>().onClick.AddListener(() => OnPickedResponse(response));
+            float width = responseButton.GetComponent<TMP_Text>().GetPreferredValues(responseButton.GetComponent<TMP_Text>().text).x;
+            if(width > maxWidth)
+                maxWidth = width;
 
             tempResponseButtons.Add(responseButton);
 
             responseBoxHeight += responseButtonTemplate.sizeDelta.y;
         }
 
-        responseBox.sizeDelta = new Vector2(responseBox.sizeDelta.x, responseBoxHeight);
+        
+        responseBox.sizeDelta = new Vector2(maxWidth + 20f, responseBoxHeight);
+        //responseBox.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
         responseBox.gameObject.SetActive(true);
     }
 

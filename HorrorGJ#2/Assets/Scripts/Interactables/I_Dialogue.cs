@@ -3,7 +3,10 @@ using UnityEngine;
 public class I_Dialogue : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    private DialogueObject dialogueObject;
+    private DialogueObject dialogueObject; 
+
+    [SerializeField]
+    private GameObject key;
 
     private bool isEnabled = true;
     private bool hasInteracted = false;
@@ -13,6 +16,8 @@ public class I_Dialogue : MonoBehaviour, IInteractable
         if(other.CompareTag("Player") && other.TryGetComponent(out CharacterMovement player))
         {
             player.Interactable = this;
+            if(!hasInteracted)
+                key.SetActive(true);
         }
     }
 
@@ -23,6 +28,7 @@ public class I_Dialogue : MonoBehaviour, IInteractable
             if(player.Interactable is I_Dialogue i_dialogue && i_dialogue == this)
             {
                 player.Interactable = null;
+                key.SetActive(false);
             }
         }
     }
@@ -35,6 +41,7 @@ public class I_Dialogue : MonoBehaviour, IInteractable
         {
             DialogueManager.Instance.dialoguePanelUI.ShowDialogue(dialogueObject);
             hasInteracted = true;
+            key.SetActive(false);
         }
     }
 

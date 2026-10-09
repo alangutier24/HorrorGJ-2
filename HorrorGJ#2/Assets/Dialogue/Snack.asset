@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b013548fcefd47878e33d3f05761195, type: 3}
+  m_Name: Snack
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
+  dialogue:
+  - What kind of snack?
+  responses:
+  - responseText: A sandwich
+    dialogueObject: {fileID: 11400000, guid: 7e5f4ff3230a54d97b85ab0ea20a160a, type: 2}
+  - responseText: A rock
+    dialogueObject: {fileID: 11400000, guid: 63c552f95d344408eb6d04a4d5cbac66, type: 2}
