@@ -4,7 +4,9 @@ using UnityEngine.Rendering.Universal;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] private float lightThreshhold = 0.1f;
+    [SerializeField] public float lightThreshhold = 0.1f;
+    [SerializeField] public float chaseDistance = 15f;
+    [SerializeField] public float attackDistance = 3f;
     private Rigidbody2D rb;
     private UnityEngine.AI.NavMeshAgent agent;
 
@@ -27,13 +29,13 @@ public class Enemy : MonoBehaviour
     //moves closer when in dark
 
 
-    void MoveToPlayer()
+    public void MoveToPlayer()
     {
-         agent.isStopped = false;
+        agent.isStopped = false;
         agent.SetDestination(player.transform.position);
     }
 
-    void AgentStop()
+    public void AgentStop()
     {
         agent.isStopped = true;
         agent.velocity = Vector2.zero;
@@ -60,7 +62,7 @@ public class Enemy : MonoBehaviour
         return 0;
     }
 
-  bool InDark()
+    public bool InDark()
     {
         return GetLightAmount(transform.position) <= lightThreshhold;
     }
@@ -70,16 +72,16 @@ public class Enemy : MonoBehaviour
         //if activated chase player
         //if near light, stop
         //if touching light, health decreases, spawn point resets if health decreases too much
-        if(!active) return;
+        //if(!active) return;
 
-        if(InDark())
-        {
-            MoveToPlayer();
-        }
-        else
-        {
-            AgentStop();
-        }
+        //if(InDark())
+        //{
+        //    MoveToPlayer();
+        //}
+        //else
+        //{
+        //    AgentStop();
+        //}
 
     }
 }
