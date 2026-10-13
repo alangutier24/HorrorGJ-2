@@ -1,4 +1,5 @@
 using UnityEngine;
+   using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Camera))]
 public class Camera : MonoBehaviour
@@ -12,46 +13,36 @@ public class Camera : MonoBehaviour
 
     [Header("Look-ahead")]
     [Tooltip("How far ahead of the player the camera shifts")]
-    [SerializeField] private float lookAheadDistance = 3f;
+    [SerializeField] private Vector2 lookAheadDistance = new Vector2(2.5f, 1.23f);
     [Tooltip("How long the look-ahead takes to swap sides")]
     [SerializeField] float lookAheadSmooth = 0.5f;
     [Tooltip("Minimum horizontal speed")]
     [SerializeField] private float directionThreshold = 0.5f;
-    [Tooltip("Initial facing: 1 = right, -1 = left")]
-    [SerializeField] private float startFacing = 1f;
 
-    [Header("Vertical (locked)")]
-    [Tooltip("If true, use cameras Y at the start of the scene")]
-    [SerializeField] private bool useStartY = true;
-    [SerializeField] private float fixedY = 0f;
-
-    [Header("Level bounds (world x)")]
+    [Header("Map bounds")]
     [SerializeField] private bool clampToBounds = true;
-    [SerializeField] private float levelMinX = -50f;
-    [SerializeField] private float levelMaxX = 50f;
+    [SerializeField] private Tilemap boundsTilemap;
+    [SerializeField] private Vector2 boundsPadding = new Vector2(0f, 1f);
 
     private UnityEngine.Camera cam;
 
-    private float facing;
-    private float currentLookAhead;
-    private float lookAheadVelocity;
-    private float followVelocity;
-    private float lastTargetX;
+    private Vector2 direction;
+    private Vector2 currentLookAhead;
+    private Vector2 lookAheadVelocity;
+    private Vector2 followVelocity;
+    private Vector2 lastTargetPos;
+    private Bounds mapBounds;
+    private bool hasBounds;
 
 
     private void Awake()
     {
         cam = GetComponent<UnityEngine.Camera>();
-        if(useStartY) fixedY = transform.position.y;
-        facing = Mathf.Sign(startFacing);
     }
 
     private void Start()
     {
-        if(target == null) return;
-
-        lastTargetX = target.position.x;
-        currentLookAhead = facing * lookAheadDistance;
+        if(boundsTilemap != null) SetBoundsFromTilemap(boundsTilemap);
         SnapToTarget();
     }
 
@@ -59,55 +50,103 @@ public class Camera : MonoBehaviour
     {
         if(target == null) return;
 
-        UpdateFacing();
+        UpdateDirection();
 
-        float targetLookAhead = facing * lookAheadDistance;
-        currentLookAhead = Mathf.SmoothDamp(currentLookAhead, targetLookAhead, ref lookAheadVelocity, lookAheadSmooth);
+        Vector2 targetLookAhead = Vector2.Scale(direction, lookAheadDistance);
+        currentLookAhead = Vector2.SmoothDamp(currentLookAhead, targetLookAhead, ref lookAheadVelocity, lookAheadSmooth);
 
-        float desiredX = target.position.x + currentLookAhead;
-        float newX = Mathf.SmoothDamp(transform.position.x, desiredX, ref followVelocity, followSmoothTime);
+        Vector2 desired = (Vector2)target.position + currentLookAhead;
+        Vector2 pos = Vector2.SmoothDamp(transform.position, desired, ref followVelocity, followSmoothTime);
 
-        newX = ClampX(newX);
-        transform.position = new Vector3(newX, fixedY, transform.position.z);
+        pos = Clamp(pos);
+        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
 
     }
 
-    private void UpdateFacing()
+    private void UpdateDirection()
     {
         float dt = Time.deltaTime;
         if(dt<=0f)return;
 
-        float speedX = (target.position.x - lastTargetX) / dt;
-        lastTargetX = target.position.x;
+        Vector2 velocity = ((Vector2)target.position - lastTargetPos) / dt;
+        lastTargetPos = target.position;
 
-        if(Mathf.Abs(speedX) > directionThreshold)
-            facing = Mathf.Sign(speedX);
+        if(velocity.magnitude > directionThreshold)
+            direction = velocity.normalized;
 
     }
 
-    private float ClampX(float x)
+        public void SetBoundsFromTilemap(Tilemap tilemap)
     {
-        if(!clampToBounds || !cam.orthographic) return x;
-
-        float halfWidth = cam.orthographicSize * cam.aspect;
-        float min = levelMinX + halfWidth;
-        float max = levelMaxX - halfWidth;
-
-        if(min > max) return (levelMinX + levelMaxX) * 0.5f;
-
-        return Mathf.Clamp(x, min, max);
+        tilemap.CompressBounds();
+        BoundsInt cb = tilemap.cellBounds;
+        if (cb.size.x == 0 || cb.size.y == 0) { hasBounds = false; return; }
+ 
+        int zLow = cb.zMin;
+        int zHigh = Mathf.Max(cb.zMin, cb.zMax - 1);
+ 
+        // The 4 corner cells of the grid are the 4 tips of the iso diamond.
+        Vector3Int[] corners =
+        {
+            new Vector3Int(cb.xMin,     cb.yMin,     0),
+            new Vector3Int(cb.xMax - 1, cb.yMin,     0),
+            new Vector3Int(cb.xMin,     cb.yMax - 1, 0),
+            new Vector3Int(cb.xMax - 1, cb.yMax - 1, 0),
+        };
+ 
+        Bounds b = new Bounds(tilemap.GetCellCenterWorld(new Vector3Int(cb.xMin, cb.yMin, zLow)), Vector3.zero);
+        foreach (Vector3Int c in corners)
+        {
+            b.Encapsulate(tilemap.GetCellCenterWorld(new Vector3Int(c.x, c.y, zLow)));
+            b.Encapsulate(tilemap.GetCellCenterWorld(new Vector3Int(c.x, c.y, zHigh)));
+        }
+ 
+        // Grow from cell centers to cell edges, then add padding.
+        Vector3 cell = Vector3.Scale(tilemap.layoutGrid.cellSize, tilemap.transform.lossyScale);
+        b.Expand(new Vector3(cell.x, cell.y, 0f));
+        b.Expand(new Vector3(boundsPadding.x * 2f, boundsPadding.y * 2f, 0f));
+ 
+        SetBounds(b);
+    }
+ 
+    public void SetBounds(Bounds worldBounds)
+    {
+        mapBounds = worldBounds;
+        hasBounds = true;
+    }
+ 
+    public void ClearBounds() => hasBounds = false;
+ 
+    private Vector2 Clamp(Vector2 p)
+    {
+        if (!clampToBounds || !hasBounds || !cam.orthographic) return p;
+ 
+        float halfH = cam.orthographicSize;
+        float halfW = halfH * cam.aspect;
+ 
+        p.x = ClampAxis(p.x, mapBounds.min.x, mapBounds.max.x, halfW);
+        p.y = ClampAxis(p.y, mapBounds.min.y, mapBounds.max.y, halfH);
+        return p;
+    }
+ 
+    private static float ClampAxis(float v, float min, float max, float halfView)
+    {
+        float lo = min + halfView;
+        float hi = max - halfView;
+        // Map smaller than the view on this axis: center it.
+        return lo > hi ? (min + max) * 0.5f : Mathf.Clamp(v, lo, hi);
     }
 
     public void SnapToTarget()
     {
         if(target == null) return;
 
-        lastTargetX = target.position.x;
-        lookAheadVelocity = 0f;
-        followVelocity = 0f;
+        lastTargetPos = target.position;
+        lookAheadVelocity = Vector2.zero;
+        followVelocity = Vector2.zero;
 
-        float x = ClampX(target.position.x + currentLookAhead);
-        transform.position = new Vector3(x, fixedY, transform.position.z);
+        Vector2 pos = Clamp((Vector2)target.position + currentLookAhead);
+        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
     }
 
     public void SetTarget(Transform newTarget, bool snap = true)
@@ -118,12 +157,9 @@ public class Camera : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if(!clampToBounds) return;
-
-        float y = Application.isPlaying ? fixedY : transform.position.y;
+        if(!hasBounds) return;
         Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(new Vector3(levelMinX, y - 20f, 0f), new Vector3(levelMinX, y + 20f, 0f));
-        Gizmos.DrawLine(new Vector3(levelMaxX, y - 20f, 0f), new Vector3(levelMaxX, y + 20f, 0f));
+        Gizmos.DrawWireCube(mapBounds.center, mapBounds.size);
 
     }
 

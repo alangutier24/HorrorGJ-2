@@ -2,9 +2,9 @@ public interface IInteractable
 {
 
     bool CanInteract();
-    void Interact();
+    bool Interact();
 
-    void OnFocusGained();
+    //void OnFocusGained();
 
-    void OnFocusLost();
+    //void OnFocusLost();
 }

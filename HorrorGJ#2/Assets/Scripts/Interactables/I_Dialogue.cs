@@ -35,7 +35,7 @@ public class I_Dialogue : MonoBehaviour, IInteractable
 
     public bool CanInteract() => isEnabled;
 
-    public void Interact()
+    public bool Interact()
     {
         if(!hasInteracted)
         {
@@ -43,6 +43,7 @@ public class I_Dialogue : MonoBehaviour, IInteractable
             hasInteracted = true;
             key.SetActive(false);
         }
+        return true;
     }
 
     public void OnFocusGained()

@@ -1,68 +1,107 @@
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 public class CharacterMovement : MonoBehaviour
 {
 
+    public IInteractable Interactable {get; set;}
+    static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
+    static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
     [SerializeField] float walkSpeed = 4f;
     [SerializeField] float sprintSpeed = 7f;
-
-    static readonly int SpeedHash = Animator.StringToHash("Speed");
-    static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
-
-    Rigidbody2D rb;
-    SpriteRenderer sr;
-    InputAction moveAction;
-    InputAction sprintAction;
-    Animator anim;
-
-    float moveX;
-    bool sprinting;
-
     public bool medCamIsActive = false;
+    [SerializeField] Light2D light;
 
-    public IInteractable Interactable {get; set;}
-
+    [Header("Input")]
+    [Tooltip("Value / Vector2 (WASD composite)")]
+    [SerializeField] InputActionReference moveAction;
+    [Tooltip("Button (e.g. Left Shift) - hold to keep current facing")]
+    [SerializeField] InputActionReference lockFacingAction;
+ 
+    [Header("Movement")]
+    [SerializeField] float moveSpeed = 3f;
+    [Tooltip("Vertical scale for 2:1 iso tiles. 0.5 keeps ground speed equal in every direction and makes diagonals follow tile edges.")]
+    [SerializeField] float isoYScale = 0.5f;
+ 
+    [Header("Animation (optional)")]
+    [SerializeField] Animator animator;
+ 
+    static readonly int FacingXHash = Animator.StringToHash("FacingX");
+    static readonly int FacingYHash = Animator.StringToHash("FacingY");
+    static readonly int SpeedHash   = Animator.StringToHash("Speed");
+ 
+    Rigidbody2D rb;
+    Vector2 moveInput;
+    Vector2 velocity;
+ 
+    /// Snapped 8-dir facing in input space (use for sprites / blend tree).
+    public Vector2 Facing8 { get; private set; } = Vector2.down;
+    /// 0 = E, 1 = NE, 2 = N, 3 = NW, 4 = W, 5 = SW, 6 = S, 7 = SE.
+    public int FacingIndex { get; private set; } = 6;
+    /// Iso-corrected, normalized facing (use to point the light).
+    public Vector2 AimDirection { get; private set; }
+    public bool IsFacingLocked { get; private set; }
+    public bool IsMoving => moveInput.sqrMagnitude > 0.01f;
+ 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
-
-        moveAction = InputSystem.actions.FindAction("Move");
-        sprintAction = InputSystem.actions.FindAction("Sprint");
+        rb.gravityScale = 0f;
+        rb.freezeRotation = true;
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        SetFacing(Facing8);
     }
-        
+ 
+    void OnEnable()
+    {
+        if (moveAction) moveAction.action.Enable();
+        if (lockFacingAction) lockFacingAction.action.Enable();
+    }
+ 
+    void OnDisable()
+    {
+        if (moveAction) moveAction.action.Disable();
+        if (lockFacingAction) lockFacingAction.action.Disable();
+    }
+ 
     void Update()
     {
-        if(medCamIsActive) return;
-
-        moveX = moveAction.ReadValue<Vector2>().x;
-        sprinting = sprintAction.IsPressed();
-
-        if(sr != null && moveX != 0f)
-            sr.flipX = moveX < 0f;
-
-        float speed = Mathf.Abs(rb.linearVelocity.x);
-        anim.SetFloat(SpeedHash, speed);
-        anim.SetBool(IsRunningHash, sprinting && speed > 0.1f);
-
-        if(Keyboard.current.eKey.wasPressedThisFrame)
+        moveInput = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
+        IsFacingLocked = lockFacingAction && lockFacingAction.action.IsPressed();
+ 
+        if (IsMoving)
         {
-            Interactable?.Interact();
+            Vector2 dir = moveInput.normalized;
+            velocity = new Vector2(dir.x, dir.y * isoYScale) * moveSpeed;
+            if (!IsFacingLocked) SetFacing(dir);
         }
-        
+        else
+        {
+            velocity = Vector2.zero;
+        }
+ 
+        if (animator)
+        {
+            animator.SetFloat(FacingXHash, Facing8.x);
+            animator.SetFloat(FacingYHash, Facing8.y);
+            animator.SetFloat(SpeedHash, velocity.magnitude);
+        }
     }
-
+ 
     void FixedUpdate()
     {
-        if(medCamIsActive)
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
-        float speed = sprinting ? sprintSpeed : walkSpeed;
-        rb.linearVelocity = new Vector2(moveX * speed, rb.linearVelocity.y);
+        rb.linearVelocity = velocity;
     }
-
+ 
+    void SetFacing(Vector2 dir)
+    {
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        FacingIndex = ((Mathf.RoundToInt(angle / 45f) % 8) + 8) % 8;
+ 
+        float rad = FacingIndex * 45f * Mathf.Deg2Rad;
+        Facing8 = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+        AimDirection = new Vector2(Facing8.x, Facing8.y * isoYScale).normalized;
+    }
 }
