@@ -18,10 +18,18 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] InputActionReference lockFacingAction;
     [Tooltip("Button (Left Shift) - hold left ship to sprint")]
     [SerializeField] InputActionReference runAction;
-    
+
     [Tooltip("Button (Left Shift) - hold left ship to sprint")]
     [SerializeField] InputActionReference switchLight;
  
+    [Header("Aim")]
+    [Tooltip("Optional. Value / Vector2 bound to <Pointer>/position. If empty, reads Mouse.current directly.")]
+    [SerializeField] InputActionReference aimPointAction;
+    [Tooltip("Camera used to convert the cursor to world space. Defaults to Camera.main.")]
+    [SerializeField] UnityEngine.Camera cam;
+    [Tooltip("Spot Light2D points along its local Y, so -90 aligns it with the aim angle.")]
+    [SerializeField] float lightAngleOffset = -90f;
+
     [Header("Movement")]
     [SerializeField] public float moveSpeed = 3f;
     [SerializeField] public float runSpeed = 3f;
@@ -73,6 +81,7 @@ public class CharacterMovement : MonoBehaviour
         if (moveAction) moveAction.action.Disable();
         if (lockFacingAction) lockFacingAction.action.Disable();
         if (runAction) runAction.action.Disable();
+        if (aimPointAction) aimPointAction.action.Enable();
     }
  
     void Update()
@@ -85,7 +94,7 @@ public class CharacterMovement : MonoBehaviour
         {
             Vector2 dir = moveInput.normalized;
 
-            float speed = IsRunning? moveSpeed : runSpeed; 
+            float speed = IsRunning? runSpeed : moveSpeed; 
 
             velocity = new Vector2(dir.x, dir.y * isoYScale) * speed;
             if (!IsFacingLocked) SetFacing(dir);
@@ -110,11 +119,38 @@ public class CharacterMovement : MonoBehaviour
         light.enabled = SwitchLight;
     }
  
+    void LateUpdate()
+    {
+         UpdateAim();
+    }
+
     void FixedUpdate()
     {
         rb.linearVelocity = velocity;
     }
  
+    void UpdateAim()
+    {
+        if (!cam || !light) return;
+ 
+        Vector2 screenPos;
+        if (aimPointAction) screenPos = aimPointAction.action.ReadValue<Vector2>();
+        else if (Mouse.current != null) screenPos = Mouse.current.position.ReadValue();
+        else return;
+ 
+        Vector3 origin = light.transform.position;
+        Vector3 world = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, origin.z - cam.transform.position.z));
+        Vector2 toCursor = (Vector2)(world - origin);
+ 
+        // Cursor right on top of the light: keep the last direction
+        if (toCursor.sqrMagnitude < 0.0001f) return;
+ 
+        AimDirection = toCursor.normalized;
+ 
+        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        light.transform.rotation = Quaternion.Euler(0f, 0f, angle + lightAngleOffset);
+    }
+
     void SetFacing(Vector2 dir)
     {
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

@@ -83,6 +83,53 @@ public class Enemy : MonoBehaviour
         return GetLightAmount(transform.position) <= lightThreshhold;
     }
 
+    public bool RandomPointAway(
+    Vector2 origin, Vector2 threat,
+    float minDist, float maxDist, float coneAngle,
+    out Vector2 result, int attempts = 10, float sampleRadius = 1f)
+    {
+        Vector2 away = origin - threat;
+        if (away.sqrMagnitude < 0.0001f) away = Random.insideUnitCircle;
+        away.Normalize();
+ 
+        var path = new UnityEngine.AI.NavMeshPath();
+ 
+        for (int i = 0; i < attempts; i++)
+        {
+            float angle = Random.Range(-coneAngle, coneAngle) * 0.5f;
+            Vector2 dir = Quaternion.Euler(0f, 0f, angle) * away;
+            Vector2 candidate = origin + dir * Random.Range(minDist, maxDist);
+ 
+            if (!UnityEngine.AI.NavMesh.SamplePosition(candidate, out UnityEngine.AI.NavMeshHit hit, sampleRadius, UnityEngine.AI.NavMesh.AllAreas))
+                continue;
+ 
+            Vector2 p = hit.position;
+ 
+            // SamplePosition can snap the point back towards the threat; reject that
+            if (Vector2.Dot(p - origin, away) <= 0f) continue;
+ 
+            // Discard points on disconnected NavMesh islands
+            if (!UnityEngine.AI.NavMesh.CalculatePath(origin, p, UnityEngine.AI.NavMesh.AllAreas, path) ||
+                path.status != UnityEngine.AI.NavMeshPathStatus.PathComplete)
+                continue;
+ 
+            result = p;
+            return true;
+        }
+ 
+        result = origin;
+        return false;
+    }
+
+    public void RunAway()
+    {
+        Vector2 point;
+
+        RandomPointAway(transform.position, player.position, 10f, 20f, 30, out point);
+
+        agent.SetDestination(point);
+    }
+
     void Update()
     {
         //if activated chase player
