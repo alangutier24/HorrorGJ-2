@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
     public bool RandomPointAway(
     Vector2 origin, Vector2 threat,
     float minDist, float maxDist, float coneAngle,
-    out Vector2 result, int attempts = 10, float sampleRadius = 1f)
+    out Vector2 result, int attempts = 10, float sampleRadius = 30f)
     {
         Vector2 away = origin - threat;
         if (away.sqrMagnitude < 0.0001f) away = Random.insideUnitCircle;
@@ -121,13 +121,27 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
+    public bool runAway = false;
+    Vector2 point;
+    
+    public void RanFarEnough()
+    {
+        Debug.Log("Running");
+        Debug.Log("Enemy: " + transform.position + " Point: " + point);
+        if(!agent.pathPending && agent.remainingDistance <= 3f)
+        {
+            runAway = false;
+            Debug.Log("Ran far enough");
+        }
+    }
+
     public void RunAway()
     {
-        Vector2 point;
+        if(runAway) return;
 
-        RandomPointAway(transform.position, player.position, 10f, 20f, 30, out point);
-
+        bool returnPoint = RandomPointAway(transform.position, player.position, 8f, 15f, 45, out point);
         agent.SetDestination(point);
+        runAway = true;
     }
 
     void Update()

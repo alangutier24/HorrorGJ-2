@@ -16,9 +16,7 @@ public class Enemy_Chase_Behavior : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
-        enemy.MoveToPlayer();
-    
+            
         if(Vector2.Distance(player.position, animator.transform.position) < enemy.attackDistance)
         {
             animator.SetTrigger("AttackIdle");
@@ -26,10 +24,16 @@ public class Enemy_Chase_Behavior : StateMachineBehaviour
             enemy.AgentStop();
         }
 
+        enemy.RanFarEnough();
+
         if(!enemy.InDark())
         {
-            enemy.AgentStop();
-            animator.ResetTrigger("Chase");
+            enemy.RunAway();
+        }
+        
+        if(!enemy.runAway)
+        {
+            enemy.MoveToPlayer();
         }
     }
 
