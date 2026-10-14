@@ -22,7 +22,7 @@ public class CameraChange : MonoBehaviour
         {
             canvas.SetActive(true);
             anim.SetBool("SetActive", true);
-            other.GetComponent<CharacterMovement>().medCamIsActive = true; 
+            //other.GetComponent<CharacterMovement>().medCamIsActive = true; 
         }
     }
 

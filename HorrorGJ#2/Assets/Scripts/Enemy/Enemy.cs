@@ -1,10 +1,12 @@
+
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    [SerializeField] public float lightThreshhold = 0.1f;
+    [SerializeField] public Transform player;
+    CharacterMovement pcm;
+    [SerializeField] public float lightThreshhold = 0.7f;
     [SerializeField] public float chaseDistance = 15f;
     [SerializeField] public float attackDistance = 3f;
     private Rigidbody2D rb;
@@ -16,9 +18,13 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        pcm = GameObject.FindWithTag("Player").GetComponent<CharacterMovement>();
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         lights = FindObjectsByType<Light2D>(FindObjectsSortMode.None);
+        System.Array.Resize(ref lights, lights.Length + 1);
+        lights[lights.Length - 1] = pcm.light;
+        foreach (var l in lights) Debug.Log($"Luz encontrada: {l.name}", l);
         Debug.Log(lights.Length);
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -32,7 +38,7 @@ public class Enemy : MonoBehaviour
     public void MoveToPlayer()
     {
         agent.isStopped = false;
-        agent.SetDestination(player.transform.position);
+        agent.SetDestination(player.position);
     }
 
     public void AgentStop()
@@ -44,26 +50,36 @@ public class Enemy : MonoBehaviour
     public float GetLightAmount(Vector2 point)
     {
         if(lights.Length == 0) return 0;
+        float hittingLight = 0;
         foreach(Light2D light2D in lights)
         {       
             Vector2 origin = light2D.transform.position;
             Vector2 toPoint = point - origin;
             float dist = toPoint.magnitude;
 
-            if (dist > light2D.pointLightOuterRadius) return 0f;
+            if (dist > light2D.pointLightOuterRadius)
+            {
+                hittingLight = 0f;
+                continue;
+            } 
 
             float angle = Vector2.Angle(light2D.transform.up, toPoint);
-            if (angle > light2D.pointLightOuterAngle * 0.5f) return 0f;
-
+            if (angle > light2D.pointLightOuterAngle * 0.5f) 
+            {
+                hittingLight = 0f;
+                continue;
+            }
             // 1 inside inner radius, fading to 0 at outer radius
-            float hittingLight = 1f - Mathf.InverseLerp(light2D.pointLightInnerRadius, light2D.pointLightOuterRadius, dist);
-            return hittingLight;
+            hittingLight = 1f - Mathf.InverseLerp(light2D.pointLightInnerRadius, light2D.pointLightOuterRadius, dist);
         }
-        return 0;
+        return hittingLight;
     }
 
     public bool InDark()
     {
+        if(!pcm.SwitchLight)
+            return true;
+
         return GetLightAmount(transform.position) <= lightThreshhold;
     }
 

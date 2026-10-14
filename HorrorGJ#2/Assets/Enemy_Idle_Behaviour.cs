@@ -15,17 +15,21 @@ public class Enemy_Idle_Behaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+      if(!enemy.InDark())
+      {
+         enemy.AgentStop();
+         return;
+      }
        if(Vector2.Distance(player.position, animator.transform.position) < enemy.chaseDistance)
        {
             animator.SetTrigger("Chase");
-            enemy.MoveToPlayer();
        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
+       //animator.ResetTrigger("Chase");
     }
 
 }

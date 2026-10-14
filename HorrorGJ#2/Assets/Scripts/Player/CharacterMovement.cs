@@ -9,19 +9,22 @@ public class CharacterMovement : MonoBehaviour
     public IInteractable Interactable {get; set;}
     static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
     static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
-    [SerializeField] float walkSpeed = 4f;
-    [SerializeField] float sprintSpeed = 7f;
-    public bool medCamIsActive = false;
-    [SerializeField] Light2D light;
+    [SerializeField]public Light2D light;
 
     [Header("Input")]
     [Tooltip("Value / Vector2 (WASD composite)")]
     [SerializeField] InputActionReference moveAction;
-    [Tooltip("Button (e.g. Left Shift) - hold to keep current facing")]
+    [Tooltip("Button () - hold to keep current facing")]
     [SerializeField] InputActionReference lockFacingAction;
+    [Tooltip("Button (Left Shift) - hold left ship to sprint")]
+    [SerializeField] InputActionReference runAction;
+    
+    [Tooltip("Button (Left Shift) - hold left ship to sprint")]
+    [SerializeField] InputActionReference switchLight;
  
     [Header("Movement")]
-    [SerializeField] float moveSpeed = 3f;
+    [SerializeField] public float moveSpeed = 3f;
+    [SerializeField] public float runSpeed = 3f;
     [Tooltip("Vertical scale for 2:1 iso tiles. 0.5 keeps ground speed equal in every direction and makes diagonals follow tile edges.")]
     [SerializeField] float isoYScale = 0.5f;
  
@@ -44,6 +47,10 @@ public class CharacterMovement : MonoBehaviour
     public Vector2 AimDirection { get; private set; }
     public bool IsFacingLocked { get; private set; }
     public bool IsMoving => moveInput.sqrMagnitude > 0.01f;
+
+    public bool IsRunning;
+
+    public bool SwitchLight;
  
     void Awake()
     {
@@ -58,36 +65,49 @@ public class CharacterMovement : MonoBehaviour
     {
         if (moveAction) moveAction.action.Enable();
         if (lockFacingAction) lockFacingAction.action.Enable();
+        if (runAction) runAction.action.Enable();
     }
  
     void OnDisable()
     {
         if (moveAction) moveAction.action.Disable();
         if (lockFacingAction) lockFacingAction.action.Disable();
+        if (runAction) runAction.action.Disable();
     }
  
     void Update()
     {
         moveInput = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
         IsFacingLocked = lockFacingAction && lockFacingAction.action.IsPressed();
- 
+        IsRunning = runAction.action.IsPressed();
+
         if (IsMoving)
         {
             Vector2 dir = moveInput.normalized;
-            velocity = new Vector2(dir.x, dir.y * isoYScale) * moveSpeed;
+
+            float speed = IsRunning? moveSpeed : runSpeed; 
+
+            velocity = new Vector2(dir.x, dir.y * isoYScale) * speed;
             if (!IsFacingLocked) SetFacing(dir);
+
+            animator.SetBool(IsWalkingHash, true);
         }
         else
         {
             velocity = Vector2.zero;
+            animator.SetBool(IsWalkingHash, false);
         }
  
         if (animator)
         {
-            animator.SetFloat(FacingXHash, Facing8.x);
-            animator.SetFloat(FacingYHash, Facing8.y);
-            animator.SetFloat(SpeedHash, velocity.magnitude);
+//            animator.SetFloat(FacingXHash, Facing8.x);
+//            animator.SetFloat(FacingYHash, Facing8.y);
+//            animator.SetFloat(SpeedHash, velocity.magnitude);
         }
+
+        SwitchLight = switchLight.action.IsPressed();
+
+        light.enabled = SwitchLight;
     }
  
     void FixedUpdate()
