@@ -24,7 +24,7 @@ public class DialoguePanelUI : MonoBehaviour
         textLabel = GameObject.Find("Dialogue").GetComponent<TMP_Text>();
         typeWritterEffect = FindFirstObjectByType<TypeWritterEffect>();
         responseHandler = FindFirstObjectByType<ResponseHandler>();
-        dialogueBox.SetActive(false);
+        //dialogueBox.SetActive(false);
     }
 
     void Start()
@@ -32,10 +32,18 @@ public class DialoguePanelUI : MonoBehaviour
         IsOpen = true;
     }
 
-    public void ShowDialogue(DialogueObject dialogueObject)
+    public IEnumerator ShowDialogue(DialogueObject dialogueObject)
     {
         dialogueBox.SetActive(true);
-        StartCoroutine(StepThroughDialogue(dialogueObject));
+        IsOpen = true;
+        yield return StartCoroutine(StepThroughDialogue(dialogueObject));
+    }
+
+    public IEnumerator ShowDialogue(Dialogue dialogue)
+    {
+        dialogueBox.SetActive(true);
+        IsOpen = true;
+        yield return StartCoroutine(StepThroughDialogue(dialogue));
     }
     
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject)
@@ -62,6 +70,23 @@ public class DialoguePanelUI : MonoBehaviour
         {
             CloseDialogueBox();
         }
+
+    }
+
+    private IEnumerator StepThroughDialogue(Dialogue dialogue)
+    {
+        for(int i=0; i<dialogue.sentences.Length; i++)
+        {
+            string sentence = dialogue.sentences[i];
+
+            yield return RunTypingEffect(sentence);
+
+            textLabel.text = sentence;
+
+            yield return null;
+            yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame);
+        }
+        CloseDialogueBox();
 
     }
 

@@ -126,12 +126,9 @@ public class Enemy : MonoBehaviour
     
     public void RanFarEnough()
     {
-        Debug.Log("Running");
-        Debug.Log("Enemy: " + transform.position + " Point: " + point);
         if(!agent.pathPending && agent.remainingDistance <= 3f)
         {
             runAway = false;
-            Debug.Log("Ran far enough");
         }
     }
 
@@ -144,21 +141,4 @@ public class Enemy : MonoBehaviour
         runAway = true;
     }
 
-    void Update()
-    {
-        //if activated chase player
-        //if near light, stop
-        //if touching light, health decreases, spawn point resets if health decreases too much
-        //if(!active) return;
-
-        //if(InDark())
-        //{
-        //    MoveToPlayer();
-        //}
-        //else
-        //{
-        //    AgentStop();
-        //}
-
-    }
 }

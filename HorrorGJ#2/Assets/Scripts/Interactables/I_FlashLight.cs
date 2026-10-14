@@ -1,33 +1,51 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class I_FlashLight : MonoBehaviour, IInteractable
 {
-    private bool isEnabled = true;
+  [SerializeField] private Light2D light;
+
     private bool hasInteracted = false;
-    public void Interact()
+    private CharacterMovement playerInRange;
+
+    public bool CanInteract() => !hasInteracted;
+
+    public bool Interact()
     {
-        if(!hasInteracted)
+        if (hasInteracted) return false;
+
+        hasInteracted = true;
+
+        if (light != null)
+            light.enabled = true;
+
+        if (playerInRange != null)
         {
-            hasInteracted = true;
-            isEnabled = false;
+            playerInRange.hasLight = true;
+            Destroy(gameObject);
         }
+
+        return true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player") && other.TryGetComponent(out CharacterMovement player))
+        if (other.CompareTag("Player") && other.TryGetComponent(out CharacterMovement player))
         {
             player.Interactable = this;
-            if(!hasInteracted)
-                player.hasLight = true;
+            playerInRange = player;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.CompareTag("Player") && other.TryGetComponent(out CharacterMovement player))
+        if (other.CompareTag("Player") && other.TryGetComponent(out CharacterMovement player))
         {
-            Destroy(gameObject);
+            if (player.Interactable == this)
+                player.Interactable = null;
+
+            if (playerInRange == player)
+                playerInRange = null;
         }
     }
 

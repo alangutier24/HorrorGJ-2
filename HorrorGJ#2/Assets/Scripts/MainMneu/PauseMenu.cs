@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
+    public static PauseMenu Instance {get; private set;}
     [SerializeField] AudioMixer mixer;
     [SerializeField] Slider sliderMusic;
     [SerializeField] Slider sliderSfx;
@@ -14,7 +15,16 @@ public class PauseMenu : MonoBehaviour
 
     private bool pause = false;
 
-    void Update()
+    void Awake()
+    {
+        QualitySettings.vSyncCount = 1;
+        if(Instance != null && Instance != this) {Destroy(gameObject); return;}
+        Instance = this;
+        transform.SetParent(null);
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public bool PauseMenuUpdate()
     {
         if(Keyboard.current.pKey.wasPressedThisFrame)
             pause = !pause;
@@ -29,12 +39,7 @@ public class PauseMenu : MonoBehaviour
             pauseMenu.SetActive(false);
             Time.timeScale = 1f;
         }
-        
-    }
-
-    void Start()
-    {
-
+        return pause;
     }
 
     public void SetMusicVolume(float value)

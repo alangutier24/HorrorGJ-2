@@ -60,7 +60,7 @@ public class CharacterMovement : MonoBehaviour
 
     public bool SwitchLight;
 
-    public bool hasLight;
+    public bool hasLight = false;
  
     void Awake()
     {
@@ -86,7 +86,7 @@ public class CharacterMovement : MonoBehaviour
         if (aimPointAction) aimPointAction.action.Enable();
     }
  
-    void Update()
+    public void PlayerUpdate()
     {
         moveInput = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
         IsFacingLocked = lockFacingAction && lockFacingAction.action.IsPressed();

@@ -29,11 +29,10 @@ public class Interactor : MonoBehaviour
         interactable = null;
 
         Vector3 center = transform.position + _rayCastOffset;
-        Collider[] hits = Physics.OverlapSphere(center, 1.25f, interactMask);
+        Collider2D hit = Physics2D.OverlapCircle(center, 1.25f, interactMask);
 
-        foreach (Collider hit in hits)
+        if (hit != null)
         {
-            Debug.Log($"Hit: {hit.name} | Interactable: {hit.GetComponentInParent<IInteractable>()}");
             interactable = hit.GetComponentInParent<IInteractable>();
             if (interactable != null && interactable.CanInteract())
                 return true;

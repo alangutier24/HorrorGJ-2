@@ -10,35 +10,28 @@ public class GameManager : MonoBehaviour
     void OnEnable()  => SceneManager.sceneLoaded += OnSceneLoaded;
     void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
+
+    [SerializeField] public CharacterMovement player;
     [SerializeField] public SoundDefinition HouseMusic; 
     [SerializeField] public SoundDefinition MainMenuMusic;
     [SerializeField] public SoundDefinition startingDialogueSfx;  
 
-    private enum GameState
+    public enum GameState
     {
         MainMenu,
-        Starting,
+        StartGame,
         Pause, 
         Play, 
         End,
         Win, 
         Loose, 
-        Street, 
-        Road, 
-        Park,
-        Apartment,
-        Story
+        Game
     }
 
-    private GameState gameState;
-
-    [SerializeField]
-    private StoryManager sm;
+    public GameState gameState;
 
     private bool storyStarted = false;
     private bool mainMenuLoaded = false;
-    private bool startApartmentStory = false;
-    private bool unlockDeityVisi = false;
     
     private GameObject ECanvas;
     private Animator eanim;
@@ -59,15 +52,12 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        gameState = GameState.Apartment;
-        ECanvas = GameObject.Find("PressECanvas");
-        Debug.Log("Scene Loaded");
-        if(ECanvas == null) 
+        player = GameObject.FindWithTag("Player").GetComponent<CharacterMovement>();
+        if(player == null)
         {
-            Debug.Log("Canvas is null");
+            Debug.LogError($"No se encontró un objeto con el tag 'Player' en la escena {scene.name}.");
             return;
         }
-        eanim = ECanvas.GetComponent<Animator>();
     }
 
     void Update()
@@ -76,7 +66,11 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Play:
             {
-                //Play();
+                player.PlayerUpdate();
+                if(PauseMenu.Instance.PauseMenuUpdate())
+                {
+                    gameState = GameState.Pause;
+                }
             }
             break;
 
@@ -90,15 +84,13 @@ public class GameManager : MonoBehaviour
             }
             break;
 
-            case GameState.Story:
-            {
-
-            }
-            break;
-
             case GameState.Pause:
             {
-                //GameSettings.Pause();
+                if(!PauseMenu.Instance.PauseMenuUpdate())
+                {
+                    gameState = GameState.Play;
+                }
+
             }
             break;
 
@@ -108,68 +100,34 @@ public class GameManager : MonoBehaviour
             }
             break;
 
-            case GameState.Street:
-            {
-                //MainMenu();
-            }
-            break;
-            case GameState.Road:
-            {
-                //MainMenu();
-            }
-            break;
-
-            case GameState.Park:
-            {
-                //MainMenu();
-            }
-            break;
-
-            case GameState.Apartment:
-            {
-                if(!startApartmentStory)
-                {
-                    startApartmentStory = true;
-                    AudioManager.Instance.PlaySFX(startingDialogueSfx);
-                }
-
-                if(unlockDeityVisi)
-                {
-                    unlockDeityVisi = false;
-                }
-
-            }
-            break;
-
-            case GameState.Starting:
-            {
-                if(!storyStarted)
-                {
-                    storyStarted = true;
-                    AudioManager.Instance.PlayMusic(HouseMusic, 1.5f);
-                }
-            }
-            break;
-
             case GameState.Win:
             {
                 //MainMenu();
             }
             break;
 
+            case GameState.StartGame:
+            {
+                if(!storyStarted)
+                {
+                    storyStarted = true;
+                    AudioManager.Instance.PlayMusic(HouseMusic, 1.5f);
+                    StoryManager.Instance.BeginStoryGameState();
+                }
+                StoryManager.Instance.StoryUpdate();
+            }
+            break;
         }
 
     }
 
     public void StartGame()
     {
-        gameState = GameState.Starting;
+        gameState = GameState.StartGame;
     }
 
-    public void UnlockEliasPower()
+    public void Play()
     {
-        unlockDeityVisi = true;
-        gameState = GameState.Apartment;
+        gameState = GameState.Play;
     }
-
 }
