@@ -59,6 +59,8 @@ public class CharacterMovement : MonoBehaviour
     public bool IsRunning;
 
     public bool SwitchLight;
+
+    public bool hasLight;
  
     void Awake()
     {
@@ -114,6 +116,8 @@ public class CharacterMovement : MonoBehaviour
 //            animator.SetFloat(SpeedHash, velocity.magnitude);
         }
 
+        if(!hasLight) return;
+        
         SwitchLight = switchLight.action.IsPressed();
 
         light.enabled = SwitchLight;

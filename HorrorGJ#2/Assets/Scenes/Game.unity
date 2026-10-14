@@ -3726,6 +3726,7 @@ MonoBehaviour:
   lightThreshhold: 0.6
   chaseDistance: 15
   attackDistance: 1.5
+  runAway: 0
 --- !u!212 &1813166947
 SpriteRenderer:
   serializedVersion: 2
