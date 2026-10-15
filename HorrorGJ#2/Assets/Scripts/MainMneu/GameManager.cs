@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] public CharacterMovement player;
-    [SerializeField] public SoundDefinition HouseMusic; 
+    [SerializeField] public SoundDefinition LabMusic; 
     [SerializeField] public SoundDefinition MainMenuMusic;
     [SerializeField] public SoundDefinition startingDialogueSfx;  
 
@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
 
     private bool storyStarted = false;
     private bool mainMenuLoaded = false;
-    
     private GameObject ECanvas;
     private Animator eanim;
 
@@ -47,18 +46,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        gameState = GameState.MainMenu;
+        //gameState = GameState.MainMenu;
+        gameState = GameState.Play;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        player = GameObject.FindWithTag("Player").GetComponent<CharacterMovement>();
-        if(player == null)
-        {
-            Debug.LogError($"No se encontró un objeto con el tag 'Player' en la escena {scene.name}.");
+        GameObject playerGO = GameObject.FindWithTag("Player");
+        if(playerGO == null)
             return;
-        }
+        player = playerGO.GetComponent<CharacterMovement>();
+        if(player == null)
+            return;
     }
+
+    private bool play = true;
 
     void Update()
     {
@@ -66,6 +68,11 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Play:
             {
+                if(play)
+                {
+                    AudioManager.Instance.PlayMusic(LabMusic, 1.5f);
+                    play = false;
+                }
                 player.PlayerUpdate();
                 if(PauseMenu.Instance.PauseMenuUpdate())
                 {
@@ -111,7 +118,7 @@ public class GameManager : MonoBehaviour
                 if(!storyStarted)
                 {
                     storyStarted = true;
-                    AudioManager.Instance.PlayMusic(HouseMusic, 1.5f);
+                    //AudioManager.Instance.PlayMusic(HouseMusic, 1.5f);
                     StoryManager.Instance.BeginStoryGameState();
                 }
                 StoryManager.Instance.StoryUpdate();

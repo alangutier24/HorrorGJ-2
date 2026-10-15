@@ -1,19 +1,28 @@
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
     public static PauseMenu Instance {get; private set;}
-    [SerializeField] AudioMixer mixer;
     [SerializeField] Slider sliderMusic;
     [SerializeField] Slider sliderSfx;
-    [SerializeField] string musicParam = "MusicVol";
-    [SerializeField] string sfxParam = "SfxVolume";
     [SerializeField] GameObject pauseMenu;
 
     private bool pause = false;
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        sliderMusic.onValueChanged.RemoveListener(OnMusicChanged);
+        sliderSfx.onValueChanged.RemoveListener(OnSfxChanged);
+    }
 
     void Awake()
     {
@@ -22,6 +31,41 @@ public class PauseMenu : MonoBehaviour
         Instance = this;
         transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
+    }
+
+    //void OnMusicChanged(float value) => AudioManager.Instance.SetMusicVolume(value);
+    void OnMusicChanged(float value)
+     {
+       Debug.Log($"Music slider: {value}");
+       AudioManager.Instance.SetMusicVolume(value);
+    }
+    void OnSfxChanged(float value)   => AudioManager.Instance.SetSFXVolume(value);
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        sliderMusic = GameObject.Find("MusicSlider").GetComponent<Slider>();
+        sliderSfx = GameObject.Find("SfxSlider").GetComponent<Slider>();
+
+        if(sliderMusic == null || sliderSfx == null)
+        {
+            Debug.LogError("PauseMenu: MusicSlider or SfxSlider not found in the loaded scene.", this);
+            return;
+        }
+
+        pauseMenu = GameObject.Find("PauseGUI");
+
+        if (AudioManager.Instance == null)
+        {
+            Debug.LogError("AudioManager is missing from the loaded scene.", this);
+            return;
+        }
+
+        sliderMusic.value = AudioManager.Instance.GetMusicVolume();
+        sliderSfx.value = AudioManager.Instance.GetSFXVolume();
+
+        sliderMusic.onValueChanged.AddListener(OnMusicChanged);
+        sliderSfx.onValueChanged.AddListener(OnSfxChanged);
+
+        pauseMenu.SetActive(false);
     }
 
     public bool PauseMenuUpdate()
@@ -44,12 +88,23 @@ public class PauseMenu : MonoBehaviour
 
     public void SetMusicVolume(float value)
     {
-        mixer.SetFloat(musicParam, Mathf.Log10(sliderMusic.value)*20);
+        if (AudioManager.Instance == null)
+        {
+            Debug.LogError("AudioManager is missing; music volume was not changed.", this);
+            return;
+        }
+
+        AudioManager.Instance.SetMusicVolume(value);
     }
 
     public void SetSfxVolume(float value)
     {
-        Debug.Log("Set SFX");
-        mixer.SetFloat(sfxParam, Mathf.Log10(sliderSfx.value)*20);
+        if (AudioManager.Instance == null)
+        {
+            Debug.LogError("AudioManager is missing; SFX volume was not changed.", this);
+            return;
+        }
+
+        AudioManager.Instance.SetSFXVolume(value);
     }
 }

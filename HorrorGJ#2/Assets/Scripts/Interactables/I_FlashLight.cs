@@ -4,10 +4,19 @@ using UnityEngine.Rendering.Universal;
 public class I_FlashLight : MonoBehaviour, IInteractable
 {
   [SerializeField] private Light2D light;
+  [SerializeField] private GameObject highlight;
 
     private bool hasInteracted = false;
     private CharacterMovement playerInRange;
 
+    void Awake()
+    {
+        if (light != null)
+            light.enabled = false;
+
+        if (highlight != null)
+            highlight.SetActive(false);
+    }   
     public bool CanInteract() => !hasInteracted;
 
     public bool Interact()
@@ -34,6 +43,7 @@ public class I_FlashLight : MonoBehaviour, IInteractable
         {
             player.Interactable = this;
             playerInRange = player;
+            highlight.SetActive(true);
         }
     }
 
@@ -41,6 +51,7 @@ public class I_FlashLight : MonoBehaviour, IInteractable
     {
         if (other.CompareTag("Player") && other.TryGetComponent(out CharacterMovement player))
         {
+            highlight.SetActive(false);
             if (player.Interactable == this)
                 player.Interactable = null;
 

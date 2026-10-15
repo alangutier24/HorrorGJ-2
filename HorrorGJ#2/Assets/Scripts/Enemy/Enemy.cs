@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
         Debug.Log(lights.Length);
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.velocity = new Vector2(1, 0.5f);
+        agent.velocity = new Vector2(2f, 1f);
 
     }
     //Knows the players location at all times

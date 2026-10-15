@@ -23,6 +23,7 @@ public class Camera : MonoBehaviour
     [SerializeField] private bool clampToBounds = true;
     [SerializeField] private Tilemap boundsTilemap;
     [SerializeField] private Vector2 boundsPadding = new Vector2(0f, 1f);
+    [SerializeField] SpriteRenderer mapSprite;
 
     private UnityEngine.Camera cam;
 
@@ -39,11 +40,18 @@ public class Camera : MonoBehaviour
     {
         cam = GetComponent<UnityEngine.Camera>();
     }
+    public void SetBoundsFromSprite(SpriteRenderer sr)
+    {
+        Bounds b = sr.bounds; // world-space, already includes position/scale
+        b.Expand(new Vector3(boundsPadding.x * 2f, boundsPadding.y * 2f, 0f));
+        SetBounds(b);
+    }
 
     private void Start()
     {
-        if(boundsTilemap != null) SetBoundsFromTilemap(boundsTilemap);
+        //if(boundsTilemap != null) SetBoundsFromTilemap(boundsTilemap);
         SnapToTarget();
+        if (mapSprite) SetBoundsFromSprite(mapSprite);
     }
 
     private void LateUpdate()

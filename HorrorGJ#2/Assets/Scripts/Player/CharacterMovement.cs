@@ -2,6 +2,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
+using System.Collections;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class CharacterMovement : MonoBehaviour
     static readonly int FacingXHash = Animator.StringToHash("FacingX");
     static readonly int FacingYHash = Animator.StringToHash("FacingY");
     static readonly int SpeedHash   = Animator.StringToHash("Speed");
+
+    static readonly int DirectionHash   = Animator.StringToHash("DirectionAngle");
  
     Rigidbody2D rb;
     Vector2 moveInput;
@@ -69,6 +72,7 @@ public class CharacterMovement : MonoBehaviour
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         SetFacing(Facing8);
+        light.enabled = hasLight;
     }
  
     void OnEnable()
@@ -86,6 +90,11 @@ public class CharacterMovement : MonoBehaviour
         if (aimPointAction) aimPointAction.action.Enable();
     }
  
+
+    private float lightTimer = 3f;
+    private float lightCooldown = 0.5f; // Cooldown in seconds
+    private float lightElpsed = 0f; // Threshold for light intensity
+
     public void PlayerUpdate()
     {
         moveInput = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
@@ -95,6 +104,10 @@ public class CharacterMovement : MonoBehaviour
         if (IsMoving)
         {
             Vector2 dir = moveInput.normalized;
+            
+            float angle = Mathf.Atan2(dir.y, dir.x);
+            float t = (angle / (2f * Mathf.PI) + 1f) % 1f;
+            animator.SetFloat(DirectionHash, t);
 
             float speed = IsRunning? runSpeed : moveSpeed; 
 
@@ -117,12 +130,31 @@ public class CharacterMovement : MonoBehaviour
         }
 
         if(!hasLight) return;
-        
-        SwitchLight = switchLight.action.IsPressed();
+
+        if(switchLight.action.WasPressedThisFrame())
+        {
+            SwitchLight = !SwitchLight;
+        }
+
+        if(SwitchLight)
+        {
+            lightElpsed += Time.deltaTime;
+            if(lightElpsed >= lightTimer)
+            {
+                StartCoroutine(LightCooldown());
+                lightElpsed = 0f;
+            }
+        }
 
         light.enabled = SwitchLight;
     }
  
+    private IEnumerator LightCooldown()
+    {
+        yield return new WaitForSeconds(Random.Range(lightCooldown, lightCooldown * 2f));
+        SwitchLight = false;
+    }
+
     void LateUpdate()
     {
          UpdateAim();

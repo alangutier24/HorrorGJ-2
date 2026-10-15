@@ -8,9 +8,12 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [Header("Mixer (expose params named MasterVol, MusicVol, SFXVol)")]
+    [Header("Mixer (expose params named MusicVol and SfxVol)")]
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private AudioMixerGroup musicGroup;
+
+    private const string MusicVolumeParameter = "MusicVol";
+    private const string SfxVolumeParameter = "SfxVol";
 
     [Header("SFX pool")]
     [SerializeField] private int poolSize = 12;
@@ -149,20 +152,36 @@ public class AudioManager : MonoBehaviour
     // ---------- Volume (0..1 slider -> dB) ----------
 
     public void SetMasterVolume(float v) => SetVolume("MasterVol", v);
-    public void SetMusicVolume(float v)  => SetVolume("MusicVol", v);
-    public void SetSFXVolume(float v)     => SetVolume("SFXVol", v);
+    public void SetMusicVolume(float v) => SetVolume(MusicVolumeParameter, v);
+    public void SetSFXVolume(float v) => SetVolume(SfxVolumeParameter, v);
 
     private void SetVolume(string param, float linear)
     {
+        linear = Mathf.Clamp01(linear);
         float dB = Mathf.Log10(Mathf.Clamp(linear, 0.0001f, 1f)) * 20f;
-        mixer.SetFloat(param, dB);
+        if (!mixer.SetFloat(param, dB))
+        {
+            Debug.LogError($"AudioMixer parameter '{param}' is not exposed.", this);
+            return;
+        }
         PlayerPrefs.SetFloat(param, linear);
+    }
+
+    public float GetMusicVolume() => GetVolume(MusicVolumeParameter);
+    public float GetSFXVolume() => GetVolume(SfxVolumeParameter);
+
+    private float GetVolume(string param)
+    {
+        if (mixer.GetFloat(param, out float dB))
+            return Mathf.Clamp01(Mathf.Pow(10f, dB / 20f));
+
+        Debug.LogError($"AudioMixer parameter '{param}' is not exposed.", this);
+        return Mathf.Clamp01(PlayerPrefs.GetFloat(param, 1f));
     }
 
     private void LoadVolumes()
     {
-        SetVolume("MasterVol", PlayerPrefs.GetFloat("MasterVol", 1f));
-        SetVolume("MusicVol",  PlayerPrefs.GetFloat("MusicVol", 1f));
-        SetVolume("SFXVol",    PlayerPrefs.GetFloat("SFXVol", 1f));
+        SetMusicVolume(PlayerPrefs.GetFloat(MusicVolumeParameter, 1f));
+        SetSFXVolume(PlayerPrefs.GetFloat(SfxVolumeParameter, 1f));
     }
 }
