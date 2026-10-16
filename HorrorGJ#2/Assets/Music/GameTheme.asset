@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameTheme
   m_EditorClassIdentifier: Assembly-CSharp::SoundDefinition
   clips:
-  - {fileID: 8300000, guid: 136327c33f6cd8f45ab50d45cab750f2, type: 3}
+  - {fileID: 8300000, guid: 43c42eeb985ba644d9b59c095e5ed5c7, type: 3}
   volume: 1
   pitchRange: {x: 1, y: 1}
   loop: 0
