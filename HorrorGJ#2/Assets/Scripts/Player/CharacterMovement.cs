@@ -44,7 +44,12 @@ public class CharacterMovement : MonoBehaviour
     static readonly int FacingYHash = Animator.StringToHash("FacingY");
     static readonly int SpeedHash   = Animator.StringToHash("Speed");
 
-    static readonly int DirectionHash   = Animator.StringToHash("DirectionAngle");
+    static readonly int DirectionHash   = Animator.StringToHash("Direction");
+    
+    static readonly int DirectionLightHash   = Animator.StringToHash("DirectionLight");
+    static readonly int hasLightHash   = Animator.StringToHash("HasLight");
+
+
  
     Rigidbody2D rb;
     Vector2 moveInput;
@@ -72,7 +77,7 @@ public class CharacterMovement : MonoBehaviour
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         SetFacing(Facing8);
-        light.enabled = hasLight;
+        light.enabled = false;
     }
  
     void OnEnable()
@@ -101,25 +106,27 @@ public class CharacterMovement : MonoBehaviour
         IsFacingLocked = lockFacingAction && lockFacingAction.action.IsPressed();
         IsRunning = runAction.action.IsPressed();
 
+
         if (IsMoving)
         {
             Vector2 dir = moveInput.normalized;
-            
-            float angle = Mathf.Atan2(dir.y, dir.x);
-            float t = (angle / (2f * Mathf.PI) + 1f) % 1f;
-            animator.SetFloat(DirectionHash, t);
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            FacingIndex = ((Mathf.RoundToInt(angle / 45f) % 8) + 8) % 8;
+            //float angle = Mathf.Atan2(dir.y, dir.x);
+            //float t = (angle / (2f * Mathf.PI) + 1f) % 1f;
+            animator.SetFloat(DirectionHash, FacingIndex);
 
             float speed = IsRunning? runSpeed : moveSpeed; 
 
             velocity = new Vector2(dir.x, dir.y * isoYScale) * speed;
-            if (!IsFacingLocked) SetFacing(dir);
+            //if (!IsFacingLocked) SetFacing(dir);
 
-            animator.SetBool(IsWalkingHash, true);
+            //animator.SetBool(IsWalkingHash, true);
         }
         else
         {
             velocity = Vector2.zero;
-            animator.SetBool(IsWalkingHash, false);
+            //animator.SetBool(IsWalkingHash, false);
         }
  
         if (animator)
@@ -129,11 +136,12 @@ public class CharacterMovement : MonoBehaviour
 //            animator.SetFloat(SpeedHash, velocity.magnitude);
         }
 
+
         if(!hasLight) return;
 
         if(switchLight.action.WasPressedThisFrame())
         {
-            SwitchLight = !SwitchLight;
+           SwitchLight = !SwitchLight;
         }
 
         if(SwitchLight)
@@ -146,7 +154,14 @@ public class CharacterMovement : MonoBehaviour
             }
         }
 
-        light.enabled = SwitchLight;
+        animator.SetFloat(DirectionLightHash, FacingIndex);
+        animator.SetBool(hasLightHash, SwitchLight);
+
+        // Only show the light once the animator has fully reached a holding-light state,
+        // so it doesn't visibly slide into place during the transition.
+        bool inLightState = animator.GetCurrentAnimatorStateInfo(0).IsTag("Light") && !animator.IsInTransition(0);
+        light.enabled = SwitchLight && inLightState;
+        
     }
  
     private IEnumerator LightCooldown()
@@ -157,7 +172,7 @@ public class CharacterMovement : MonoBehaviour
 
     void LateUpdate()
     {
-         UpdateAim();
+        // UpdateAim();
     }
 
     void FixedUpdate()

@@ -670,11 +670,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryManager
   story:
-  - name: Intro
+  - name: Waking Up
     sentences:
-    - 'Game starts here. '
-    - This is the opening dialogue
-    - 'After this, the stroy starts. '
+    - What happened? Why is the lab such a mess?
+  - name: WTF
+    sentences:
+    - What the fucl!? Fuck! I need those bandages! I'm losing too much blood!
+  - name: Finding Richards Laptop
+    sentences:
+    - I need Richard's laptop. It's not here in the lab.
+  - name: The Light
+    sentences:
+    - 'The light! If it caused this horrible reaction on my arm, maybe it can do
+      the same thing to these plants. '
+  - name: The Monster
+    sentences:
+    - Richard is that you?
+  - name: Radiation
+    sentences:
+    - The radiation! It kept the plants from growing uncontrollably before the blackout!
+  - name: Richard's Research
+    sentences:
+    - I can't fucking belive this! I told you not to mix those chemicals until we'd
+      done more testing! And you applied them directly to the new strain of plants?1
+      FUCK!!!
+  - name: My Bedroom
+    sentences:
+    - My bedroom! The lights are still intact there. If I bait this thing into chasing
+      me, I can trap it inside and burn the fucker toa crisp!
 --- !u!4 &1177109419
 Transform:
   m_ObjectHideFlags: 0

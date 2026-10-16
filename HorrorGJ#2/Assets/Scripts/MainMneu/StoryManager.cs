@@ -13,8 +13,24 @@ public class StoryManager : MonoBehaviour
 
     private enum StoryState
     {
-        WakeUp,
+        WakingUp,
+        WTF,
+        FindingRichardsLaptop, 
+        TheLight, 
+        TheMonster, 
+        Radiation, 
+        RichardsResearch,
+        MyBedroom
     }
+
+    private bool wakingUpCompleted = false;
+    private bool wtfCompleted = false;
+    private bool findingRichardsLaptopCompleted = false;
+    private bool theLightCompleted = false;
+    private bool theMonsterCompleted = false;
+    private bool radiationCompleted = false;
+    private bool richardsResearchCompleted = false;
+    private bool myBedroomCompleted = false;
 
     private StoryState storyState;
 
@@ -66,14 +82,14 @@ public class StoryManager : MonoBehaviour
 
     public void BeginStoryGameState()
     {
-        storyState = StoryState.WakeUp;
+        storyState = StoryState.WakingUp;
     }
 
     private bool storyStarted = false;
 
     public void StoryUpdate()
     {   
-        if (storyState != StoryState.WakeUp || storyStarted)
+        if (storyState != StoryState.WakingUp || storyStarted)
             return;
 
         // No iniciar la historia mientras siga activa otra escena
@@ -83,11 +99,77 @@ public class StoryManager : MonoBehaviour
             dialoguePanelUI == null)
             return;
 
-        Debug.Log("Starting story...");
-        DialogueManager.Instance.SetActiveDialoguePanel(true);
+        switch (storyState)
+        {
+            case StoryState.WakingUp:
+            if(!storyStarted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    storyStarted = true;
+                }
+                break;
+            case StoryState.WTF:
+                if(!wtfCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    wtfCompleted = true;
+                }
+                break;
+            case StoryState.FindingRichardsLaptop:
+                if(!findingRichardsLaptopCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    findingRichardsLaptopCompleted = true;
+                }
+                break;
+            case StoryState.TheLight:
+                if(!theLightCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    theLightCompleted = true;
+                }
+                break;
+            case StoryState.TheMonster:
+                if(!theMonsterCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    theMonsterCompleted = true;
+                }
+                break;
+            case StoryState.Radiation:
+                if(!radiationCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    radiationCompleted = true;
+                }
+                break;  
+            case StoryState.RichardsResearch:
+                if(!richardsResearchCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    richardsResearchCompleted = true;
+                }
+                break;
+            case StoryState.MyBedroom:
+                if(!myBedroomCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    myBedroomCompleted = true;
+                }
+                break;
+            default:
+                Debug.LogWarning("Estado de historia no reconocido.");
+                break;
+        }
 
-        storyStarted = true;
-        StartCoroutine(StartStory(story[(int)storyState]));
     }
 
     private IEnumerator StartStory(Dialogue dialogue)
@@ -95,12 +177,6 @@ public class StoryManager : MonoBehaviour
         yield return StartCoroutine(dialoguePanelUI.ShowDialogue(dialogue));
         fcanvas.FadeIn();
         GameManager.Instance.Play();
-    }
-
-    public bool PlayNextStory(int index)
-    {
-
-        return true;
     }
 
 }
