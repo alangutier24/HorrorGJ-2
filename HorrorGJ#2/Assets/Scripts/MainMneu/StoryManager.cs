@@ -18,6 +18,7 @@ public class StoryManager : MonoBehaviour
         WTF,
         WhatHappened,
         FindingRichardsLaptop, 
+        House, 
         TheLight, 
         TheMonster, 
         Radiation, 
@@ -29,6 +30,7 @@ public class StoryManager : MonoBehaviour
     private bool wtfCompleted = false;
     private bool whatHappenedCompleted = false;
     private bool findingRichardsLaptopCompleted = false;
+    private bool houseCompleted = false;
     private bool theLightCompleted = false;
     private bool theMonsterCompleted = false;
     private bool radiationCompleted = false;
@@ -121,6 +123,14 @@ public class StoryManager : MonoBehaviour
                     whatHappenedCompleted = true; 
                 }
                 break;
+            case StoryState.House:
+                if(!houseCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    houseCompleted = true;
+                }
+            break;
             case StoryState.FindingRichardsLaptop:
                 if(!findingRichardsLaptopCompleted)
                 {

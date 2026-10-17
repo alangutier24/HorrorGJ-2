@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public BandagesScene bandagesScene;
     [SerializeField] public WhatHappenedScene whatHappenedScene;
     [SerializeField] public I_Laptop laptop;
+    [SerializeField] public HouseScene houseScene;
     CircleCollider2D laptopCollider;
 
 
@@ -92,6 +93,8 @@ public class GameManager : MonoBehaviour
         laptopCollider =  laptop.GetComponent<CircleCollider2D>();
         laptopCollider.enabled = false;
         laptop.enabled = false;
+
+        houseScene = GameObject.FindFirstObjectByType<HouseScene>();
     }
 
     private bool play = true;
@@ -101,6 +104,8 @@ public class GameManager : MonoBehaviour
     public bool episode2Started = false;
 
     public bool episode3Started = false;
+
+    public bool episode4Started = false;
 
     void Update()
     {
@@ -161,6 +166,16 @@ public class GameManager : MonoBehaviour
                                     episode3Started = true;
                                     StoryManager.Instance.storyState = StoryManager.StoryState.WhatHappened;
                                     curObjective = whatHappenedScene.objective;
+                                }
+                            }
+                            break;
+                        case Episode.Episode4:
+                            {
+                                if(!episode4Started)
+                                {
+                                    episode3Started = true;
+                                    StoryManager.Instance.storyState = StoryManager.StoryState.House;
+                                    curObjective = houseScene.objective;
                                 }
                             }
                             break;
