@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] public HouseScene houseScene;
     CircleCollider2D laptopCollider;
 
+    [SerializeField] public I_Notes notes;
+
+    CircleCollider2D notesCollider;
+
 
     public enum GameState
     {
@@ -39,16 +43,16 @@ public class GameManager : MonoBehaviour
 
     public enum Episode
     {
-        Episode1,
-        Episode2,
-        Episode3,
-        Episode4,
-        Episode5,
-        Episode6,
-        Episode7,
-        Episode8,
-        Episode9,
-        Episode10
+        Episode1, //Wake up
+        Episode2, // WTF
+        Episode3, // What happened
+        Episode4, // House
+        Episode5, // Richard's Laptop
+        Episode6, // The Light
+        Episode7, // The Monster
+        Episode8, // Radiation
+        Episode9, // Richard's Research
+        Episode10 // My Bedroom
     }
 
     public GameState gameState;
@@ -95,6 +99,14 @@ public class GameManager : MonoBehaviour
         laptop.enabled = false;
 
         houseScene = GameObject.FindFirstObjectByType<HouseScene>();
+
+        notes = GameObject.FindAnyObjectByType<I_Notes>();
+        notesCollider = notes.GetComponent<CircleCollider2D>();
+        notesCollider.enabled = false;
+        notes.enabled = false;
+
+
+
     }
 
     private bool play = true;
@@ -166,6 +178,8 @@ public class GameManager : MonoBehaviour
                                     episode3Started = true;
                                     StoryManager.Instance.storyState = StoryManager.StoryState.WhatHappened;
                                     curObjective = whatHappenedScene.objective;
+                                    notes.enabled = true;
+                                    notesCollider.enabled = true;
                                 }
                             }
                             break;

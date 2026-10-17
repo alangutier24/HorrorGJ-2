@@ -629,11 +629,14 @@ MonoBehaviour:
   wakingUpScene: {fileID: 0}
   bandagesScene: {fileID: 0}
   whatHappenedScene: {fileID: 0}
+  laptop: {fileID: 0}
+  houseScene: {fileID: 0}
   gameState: 0
   currentEpisode: 0
   episode1Started: 0
   episode2Started: 0
   episode3Started: 0
+  episode4Started: 0
 --- !u!4 &810268084
 Transform:
   m_ObjectHideFlags: 0
@@ -744,7 +747,10 @@ MonoBehaviour:
     - As if they were just dormant. But how could they have gained consciousness?!
   - name: Finding Richards Laptop
     sentences:
-    - I need Richard's laptop. It's not here in the lab.
+    - 'I need Richard''s laptop. It''s gotta be here somewhere. '
+  - name: House
+    sentences:
+    - 'He''s laptop has gotta be in the house. '
   - name: The Light
     sentences:
     - 'The light! If it caused this horrible reaction on my arm, maybe it can do
