@@ -24,7 +24,6 @@ public class DialoguePanelUI : MonoBehaviour
         textLabel = GameObject.Find("Dialogue").GetComponent<TMP_Text>();
         typeWritterEffect = FindFirstObjectByType<TypeWritterEffect>();
         responseHandler = FindFirstObjectByType<ResponseHandler>();
-        //dialogueBox.SetActive(false);
     }
 
     void Start()
@@ -36,14 +35,14 @@ public class DialoguePanelUI : MonoBehaviour
     {
         dialogueBox.SetActive(true);
         IsOpen = true;
-        yield return StartCoroutine(StepThroughDialogue(dialogueObject));
+        yield return StepThroughDialogue(dialogueObject);
     }
 
     public IEnumerator ShowDialogue(Dialogue dialogue)
     {
         dialogueBox.SetActive(true);
         IsOpen = true;
-        yield return StartCoroutine(StepThroughDialogue(dialogue));
+        yield return StepThroughDialogue(dialogue);
     }
     
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject)

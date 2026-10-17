@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
+
 public class StoryManager : MonoBehaviour
 {
     public static StoryManager Instance {get; private set;}
@@ -11,10 +12,11 @@ public class StoryManager : MonoBehaviour
     [SerializeField]
     private Dialogue[] story;
 
-    private enum StoryState
+    public enum StoryState
     {
         WakingUp,
         WTF,
+        WhatHappened,
         FindingRichardsLaptop, 
         TheLight, 
         TheMonster, 
@@ -25,6 +27,7 @@ public class StoryManager : MonoBehaviour
 
     private bool wakingUpCompleted = false;
     private bool wtfCompleted = false;
+    private bool whatHappenedCompleted = false;
     private bool findingRichardsLaptopCompleted = false;
     private bool theLightCompleted = false;
     private bool theMonsterCompleted = false;
@@ -32,11 +35,13 @@ public class StoryManager : MonoBehaviour
     private bool richardsResearchCompleted = false;
     private bool myBedroomCompleted = false;
 
-    private StoryState storyState;
+    public StoryState storyState;
 
-    private FadeCanvas fcanvas;
+    public FadeCanvas fcanvas;
 
-    private DialoguePanelUI dialoguePanelUI;
+    public DialoguePanelUI dialoguePanelUI;
+
+    public bool storyFinished = false;
 
     void OnEnable()
     {
@@ -65,32 +70,22 @@ public class StoryManager : MonoBehaviour
 
         if (dialoguePanelUI == null)
         {
-            Debug.LogError($"No se encontró DialoguePanelUI en la escena {scene.name}.");
             return;
         }
 
         fcanvas = GameObject.FindFirstObjectByType<FadeCanvas>();
         if (fcanvas == null)
         {
-            Debug.LogError($"No se encontró un FadeCanvas en la escena {scene.name}.");
             return;
         }
 
-        Debug.Log("Everything was found, thank you very much!");
         fcanvas.SetActive(true);
-    }
-
-    public void BeginStoryGameState()
-    {
-        storyState = StoryState.WakingUp;
     }
 
     private bool storyStarted = false;
 
     public void StoryUpdate()
     {   
-        if (storyState != StoryState.WakingUp || storyStarted)
-            return;
 
         // No iniciar la historia mientras siga activa otra escena
         // o no se haya encontrado el FadeCanvas.
@@ -115,6 +110,15 @@ public class StoryManager : MonoBehaviour
                     DialogueManager.Instance.SetActiveDialoguePanel(true);
                     StartCoroutine(StartStory(story[(int)storyState]));
                     wtfCompleted = true;
+                }
+                break;
+
+            case StoryState.WhatHappened:
+                if(!whatHappenedCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    whatHappenedCompleted = true; 
                 }
                 break;
             case StoryState.FindingRichardsLaptop:
@@ -176,7 +180,7 @@ public class StoryManager : MonoBehaviour
     {
         yield return StartCoroutine(dialoguePanelUI.ShowDialogue(dialogue));
         fcanvas.FadeIn();
-        GameManager.Instance.Play();
+        storyFinished = true;
     }
 
 }

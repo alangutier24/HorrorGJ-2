@@ -10,22 +10,14 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         //animator.enabled = true;  
-        GameManager.Instance.StartGame();
+        GameManager.Instance.gameState = GameManager.GameState.Episodes;
+        GameManager.Instance.currentEpisode = GameManager.Episode.Episode1;
         SceneManager.LoadScene("Game");    
-        //StartCoroutine(CoroutineStartGame(3f));   
     }
 
     public void ExitGame()
     {
         Application.Quit();
-    }
-
-    IEnumerator CoroutineStartGame(float duration) {
-        float elapsed = 0f;
-        while (elapsed < duration) {
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
     }
 
 }

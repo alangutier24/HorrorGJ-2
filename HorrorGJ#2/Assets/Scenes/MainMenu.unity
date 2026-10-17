@@ -415,6 +415,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
+--- !u!1 &405111612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 405111614}
+  - component: {fileID: 405111613}
+  m_Layer: 0
+  m_Name: ObjectiveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &405111613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405111612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce64ed9c3fe38884a80135f1fe47757d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectiveManager
+  objectives:
+  - objectiveName: Find the Bandages
+    objectiveDescription: 'Pick up the bandages from the table and apply them to
+      your wound. '
+  objectiveUI: {fileID: 0}
+  objectiveText: {fileID: 0}
+  objectiveDescription: {fileID: 0}
+  doneShowingObjective: 0
+--- !u!4 &405111614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405111612}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 31.23816, y: 26.4818, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &724537443
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,10 +623,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   player: {fileID: 0}
-  LabMusic: {fileID: 0}
+  LabMusic: {fileID: 11400000, guid: ef4ab3778ae984d118944a6ada0d51a1, type: 2}
   MainMenuMusic: {fileID: 11400000, guid: ef4ab3778ae984d118944a6ada0d51a1, type: 2}
   startingDialogueSfx: {fileID: 0}
+  wakingUpScene: {fileID: 0}
+  bandagesScene: {fileID: 0}
+  whatHappenedScene: {fileID: 0}
   gameState: 0
+  currentEpisode: 0
+  episode1Started: 0
+  episode2Started: 0
+  episode3Started: 0
 --- !u!4 &810268084
 Transform:
   m_ObjectHideFlags: 0
@@ -675,7 +734,14 @@ MonoBehaviour:
     - What happened? Why is the lab such a mess?
   - name: WTF
     sentences:
-    - What the fucl!? Fuck! I need those bandages! I'm losing too much blood!
+    - What the fuck? Fuck! I need those bandages! I'm losing too much blood!
+  - name: What happened!?
+    sentences:
+    - The plant I was working on attacked me?! How?! There's no indication that something
+      like this is even possible! What changed?!
+    - The blackout! The plants stopped being exposed to the radiation lamps, triggering
+      an immediate growth spurt.
+    - As if they were just dormant. But how could they have gained consciousness?!
   - name: Finding Richards Laptop
     sentences:
     - I need Richard's laptop. It's not here in the lab.
@@ -698,6 +764,10 @@ MonoBehaviour:
     sentences:
     - My bedroom! The lights are still intact there. If I bait this thing into chasing
       me, I can trap it inside and burn the fucker toa crisp!
+  storyState: 0
+  fcanvas: {fileID: 0}
+  dialoguePanelUI: {fileID: 0}
+  storyFinished: 0
 --- !u!4 &1177109419
 Transform:
   m_ObjectHideFlags: 0
@@ -1451,3 +1521,4 @@ SceneRoots:
   - {fileID: 1152271117}
   - {fileID: 1927285935}
   - {fileID: 4031687916761706567}
+  - {fileID: 405111614}

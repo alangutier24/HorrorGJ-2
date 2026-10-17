@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class WakingUpScene : MonoBehaviour
 {
-    [SerializeField] Animator animator;
-    [SerializeField] SoundDefinition alarmSfx;
-    
+    [SerializeField] public SoundDefinition alarmSfx;
+    [SerializeField] public int storyIndex = 0;
+    [SerializeField] public Objective objective;
        
 }

@@ -1,10 +1,39 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class ObjectiveManager : MonoBehaviour
 {
     public static ObjectiveManager Instance {get; private set;}
     [SerializeField]
     private Objective[] objectives;
+
+    [SerializeField] public GameObject objectiveUI;
+    [SerializeField] public TMP_Text objectiveText;
+    [SerializeField] public TMP_Text objectiveDescription;
+
+    public bool doneShowingObjective = false;
+
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        objectiveUI = GameObject.Find("ObjectiveCanvas");
+        if(objectiveUI == null)
+            return;
+        objectiveText = GameObject.Find("Objective").GetComponent<TMP_Text>();
+        objectiveDescription = GameObject.Find("ObjectiveDescription").GetComponent<TMP_Text>();
+        objectiveUI.SetActive(false);
+    }
 
     void Awake()
     {
@@ -16,4 +45,32 @@ public class ObjectiveManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
+    public void ShowObjectiveUI(Objective objective)
+    {
+        objectiveUI.SetActive(true);
+        objectiveText.text = objective.objectiveName;
+        objectiveDescription.text = objective.objectiveDescription;
+        StartCoroutine(CloseObjective(5.0f));
+    }
+
+    private IEnumerator CloseObjective(float wait)
+    {
+        float timeElapsed = 0;
+        while(wait > timeElapsed)
+        {
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        HideObjectiveUI();
+
+    }
+
+    public void HideObjectiveUI()
+    {
+        objectiveUI.SetActive(false);
+        doneShowingObjective = true;
+    }
+
 }

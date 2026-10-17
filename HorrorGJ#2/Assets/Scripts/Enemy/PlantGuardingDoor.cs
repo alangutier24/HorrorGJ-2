@@ -7,11 +7,17 @@ public class PlantGuardingDoor : MonoBehaviour
     [SerializeField] SoundDefinition hurtSfx;
     [SerializeField] SpriteRenderer sr;
 
+    [SerializeField] GameObject door;
+
+    [SerializeField] float healthDecreaseRate = 4f;
+
     [SerializeField] CharacterMovement player;
 
     private float hittingLight = 0f;
     private bool isHurt = false;
     private float hurtDuration = 1f;
+
+    public float health = 100f;
 
     void Awake()
     {
@@ -37,7 +43,6 @@ public class PlantGuardingDoor : MonoBehaviour
             hittingLight = 0f;
             return 0;
         } 
-        Debug.Log("Light is close enough");
 
         float angle = Vector2.Angle(light2D.transform.up, toPoint);
         if (angle > light2D.pointLightOuterAngle * 0.5f) 
@@ -45,8 +50,6 @@ public class PlantGuardingDoor : MonoBehaviour
             hittingLight = 0f;
             return 0;
         }
-        Debug.Log("Light is within angle");
-        // 1 inside inner radius, fading to 0 at outer radius
         hittingLight = 1f - Mathf.InverseLerp(light2D.pointLightInnerRadius, light2D.pointLightOuterRadius, dist);
         return hittingLight;
     }
@@ -63,6 +66,7 @@ public class PlantGuardingDoor : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(hurtSfx);
                     hittingLight = 0f;
+                    health -= Time.deltaTime * healthDecreaseRate;
                 }
                 animator.SetBool("IsHurt", true);
 
@@ -70,6 +74,12 @@ public class PlantGuardingDoor : MonoBehaviour
             else
             {
              animator.SetBool("IsHurt", false);
+            }
+
+            if(health <= 0f)
+            {
+                Destroy(door);
+                Destroy(gameObject);
             }
         }
     }
