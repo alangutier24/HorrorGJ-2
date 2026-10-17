@@ -624,13 +624,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   player: {fileID: 0}
   LabMusic: {fileID: 11400000, guid: ef4ab3778ae984d118944a6ada0d51a1, type: 2}
-  MainMenuMusic: {fileID: 11400000, guid: ef4ab3778ae984d118944a6ada0d51a1, type: 2}
+  MainMenuMusic: {fileID: 11400000, guid: 62d751636e27242719e132dde20ed671, type: 2}
   startingDialogueSfx: {fileID: 0}
   wakingUpScene: {fileID: 0}
   bandagesScene: {fileID: 0}
   whatHappenedScene: {fileID: 0}
   laptop: {fileID: 0}
   houseScene: {fileID: 0}
+  notes: {fileID: 0}
   gameState: 0
   currentEpisode: 0
   episode1Started: 0

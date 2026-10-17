@@ -81,31 +81,28 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-
         GameObject playerGO = GameObject.FindWithTag("Player");
         if(playerGO == null)
             return;
         player = playerGO.GetComponent<CharacterMovement>();
         
-        wakingUpScene = GameObject.FindFirstObjectByType<WakingUpScene>();
+        wakingUpScene = GameObject.FindAnyObjectByType<WakingUpScene>();
 
-        bandagesScene = GameObject.FindFirstObjectByType<BandagesScene>();
+        bandagesScene = GameObject.FindAnyObjectByType<BandagesScene>();
 
-        whatHappenedScene = GameObject.FindFirstObjectByType<WhatHappenedScene>();
+        whatHappenedScene = GameObject.FindAnyObjectByType<WhatHappenedScene>();
 
-        laptop = GameObject.FindFirstObjectByType<I_Laptop>();
+        laptop = GameObject.FindAnyObjectByType<I_Laptop>();
         laptopCollider =  laptop.GetComponent<CircleCollider2D>();
         laptopCollider.enabled = false;
         laptop.enabled = false;
 
-        houseScene = GameObject.FindFirstObjectByType<HouseScene>();
+        houseScene = GameObject.FindAnyObjectByType<HouseScene>();
 
         notes = GameObject.FindAnyObjectByType<I_Notes>();
         notesCollider = notes.GetComponent<CircleCollider2D>();
         notesCollider.enabled = false;
         notes.enabled = false;
-
-
 
     }
 
@@ -125,11 +122,6 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Play:
             {
-                if(play)
-                {
-                    AudioManager.Instance.PlayMusic(LabMusic, 1.5f);
-                    play = false;
-                }
                 player.PlayerUpdate();
                 if(PauseMenu.Instance.PauseMenuUpdate())
                 {
@@ -149,6 +141,7 @@ public class GameManager : MonoBehaviour
                             {
                                 if(!episode1Started)
                                 {
+                                    AudioManager.Instance.PlayMusic(LabMusic, 0.75f);
                                     episode1Started = true;
                                     AudioManager.Instance.PlaySFX(wakingUpScene.alarmSfx);
                                     StoryManager.Instance.storyState = StoryManager.StoryState.WakingUp;
