@@ -23,7 +23,8 @@ public class StoryManager : MonoBehaviour
         TheMonster, 
         Radiation, 
         RichardsResearch,
-        MyBedroom
+        MyBedroom,
+        DoorGuardian
     }
 
     private bool wakingUpCompleted = false;
@@ -36,6 +37,7 @@ public class StoryManager : MonoBehaviour
     private bool radiationCompleted = false;
     private bool richardsResearchCompleted = false;
     private bool myBedroomCompleted = false;
+    private bool doorGuardianCompleted = false;
 
     public StoryState storyState;
 
@@ -114,7 +116,6 @@ public class StoryManager : MonoBehaviour
                     wtfCompleted = true;
                 }
                 break;
-
             case StoryState.WhatHappened:
                 if(!whatHappenedCompleted)
                 {
@@ -147,28 +148,12 @@ public class StoryManager : MonoBehaviour
                     theLightCompleted = true;
                 }
                 break;
-            case StoryState.TheMonster:
-                if(!theMonsterCompleted)
-                {
-                    DialogueManager.Instance.SetActiveDialoguePanel(true);
-                    StartCoroutine(StartStory(story[(int)storyState]));
-                    theMonsterCompleted = true;
-                }
-                break;
             case StoryState.Radiation:
                 if(!radiationCompleted)
                 {
                     DialogueManager.Instance.SetActiveDialoguePanel(true);
                     StartCoroutine(StartStory(story[(int)storyState]));
                     radiationCompleted = true;
-                }
-                break;  
-            case StoryState.RichardsResearch:
-                if(!richardsResearchCompleted)
-                {
-                    DialogueManager.Instance.SetActiveDialoguePanel(true);
-                    StartCoroutine(StartStory(story[(int)storyState]));
-                    richardsResearchCompleted = true;
                 }
                 break;
             case StoryState.MyBedroom:
@@ -177,6 +162,30 @@ public class StoryManager : MonoBehaviour
                     DialogueManager.Instance.SetActiveDialoguePanel(true);
                     StartCoroutine(StartStory(story[(int)storyState]));
                     myBedroomCompleted = true;
+                }
+                break;
+            case StoryState.DoorGuardian:
+                if(!doorGuardianCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    doorGuardianCompleted = true;
+                }
+                break;
+            case StoryState.TheMonster:
+                if(!theMonsterCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    theMonsterCompleted = true;
+                }
+                break; 
+            case StoryState.RichardsResearch:
+                if(!richardsResearchCompleted)
+                {
+                    DialogueManager.Instance.SetActiveDialoguePanel(true);
+                    StartCoroutine(StartStory(story[(int)storyState]));
+                    richardsResearchCompleted = true;
                 }
                 break;
             default:

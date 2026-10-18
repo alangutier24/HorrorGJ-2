@@ -2,10 +2,24 @@ using UnityEngine;
 
 public class HurtPlayerVolume : MonoBehaviour
 {
-    [SerializeField] private CircleCollider2D collider;
 
-    void OnTrigerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if(collision.CompareTag())        
+        if(collision.CompareTag("Player"))
+        {
+            Debug.Log("Player entered hurt volume");
+            CharacterMovement player = collision.GetComponent<CharacterMovement>();
+            player.RecieveDamage();
+         }        
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Player"))
+        {
+            Debug.Log("Player exited hurt volume");
+            CharacterMovement player = collision.GetComponent<CharacterMovement>();
+            player.ResetSpeed();
+        }
     }
 }

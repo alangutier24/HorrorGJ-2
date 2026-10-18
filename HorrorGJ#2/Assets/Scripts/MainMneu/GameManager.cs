@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     CircleCollider2D notesCollider;
 
+    [SerializeField] public DoorGuardianScene doorGuardianScene;
+
 
     public enum GameState
     {
@@ -52,7 +54,8 @@ public class GameManager : MonoBehaviour
         Episode7, // The Monster
         Episode8, // Radiation
         Episode9, // Richard's Research
-        Episode10 // My Bedroom
+        Episode10, // My Bedroom
+        Episode11, // Door Guardian
     }
 
     public GameState gameState;
@@ -104,6 +107,7 @@ public class GameManager : MonoBehaviour
         notesCollider.enabled = false;
         notes.enabled = false;
 
+        doorGuardianScene = GameObject.FindAnyObjectByType<DoorGuardianScene>();
     }
 
     private bool play = true;
@@ -115,6 +119,8 @@ public class GameManager : MonoBehaviour
     public bool episode3Started = false;
 
     public bool episode4Started = false;
+
+    public bool episode11Started = false;
 
     void Update()
     {
@@ -134,6 +140,8 @@ public class GameManager : MonoBehaviour
                     // Game scene may not have finished loading yet
                     if(wakingUpScene == null)
                         break;
+
+                    player.StopMovement();
 
                     switch(currentEpisode)
                     {
@@ -183,6 +191,17 @@ public class GameManager : MonoBehaviour
                                     episode3Started = true;
                                     StoryManager.Instance.storyState = StoryManager.StoryState.House;
                                     curObjective = houseScene.objective;
+                                }
+                            }
+                            break;
+                        case Episode.Episode11:
+                            {
+                                if(!episode11Started)
+                                {
+                                    episode11Started = true;
+                                    StoryManager.Instance.storyState = StoryManager.StoryState.DoorGuardian;
+                                    curObjective = doorGuardianScene.objective;
+                                    doorGuardianScene.enabled = true;
                                 }
                             }
                             break;

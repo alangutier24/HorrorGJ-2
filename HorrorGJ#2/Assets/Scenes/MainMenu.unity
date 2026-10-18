@@ -632,12 +632,14 @@ MonoBehaviour:
   laptop: {fileID: 0}
   houseScene: {fileID: 0}
   notes: {fileID: 0}
+  doorGuardianScene: {fileID: 0}
   gameState: 0
   currentEpisode: 0
   episode1Started: 0
   episode2Started: 0
   episode3Started: 0
   episode4Started: 0
+  episode11Started: 0
 --- !u!4 &810268084
 Transform:
   m_ObjectHideFlags: 0
@@ -771,6 +773,10 @@ MonoBehaviour:
     sentences:
     - My bedroom! The lights are still intact there. If I bait this thing into chasing
       me, I can trap it inside and burn the fucker toa crisp!
+  - name: Door Guardian
+    sentences:
+    - 'What the fuck is this? '
+    - 'It''s blocking the exit.  '
   storyState: 0
   fcanvas: {fileID: 0}
   dialoguePanelUI: {fileID: 0}

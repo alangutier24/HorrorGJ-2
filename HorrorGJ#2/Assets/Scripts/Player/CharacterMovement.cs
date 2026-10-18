@@ -10,6 +10,7 @@ public class CharacterMovement : MonoBehaviour
     public IInteractable Interactable {get; set;}
     static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
     static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
+    static readonly int IsIdleHash = Animator.StringToHash("IsIdle");
     [SerializeField]public Light2D light;
 
     [Header("Input")]
@@ -99,7 +100,7 @@ public class CharacterMovement : MonoBehaviour
     private float lightTimer = 3f;
     private float lightCooldown = 0.5f; // Cooldown in seconds
     private float lightElpsed = 0f; // Threshold for light intensity
-
+    private float speedMultiplier = 1f;
     public void PlayerUpdate()
     {
         moveInput = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
@@ -109,6 +110,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (IsMoving)
         {
+            animator.SetBool(IsIdleHash, false);
             Vector2 dir = moveInput.normalized;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             FacingIndex = ((Mathf.RoundToInt(angle / 45f) % 8) + 8) % 8;
@@ -116,7 +118,7 @@ public class CharacterMovement : MonoBehaviour
             //float t = (angle / (2f * Mathf.PI) + 1f) % 1f;
             animator.SetFloat(DirectionHash, FacingIndex);
 
-            float speed = IsRunning? runSpeed : moveSpeed; 
+            float speed = IsRunning? runSpeed : moveSpeed;
 
             velocity = new Vector2(dir.x, dir.y * isoYScale) * speed;
             //if (!IsFacingLocked) SetFacing(dir);
@@ -126,7 +128,8 @@ public class CharacterMovement : MonoBehaviour
         else
         {
             velocity = Vector2.zero;
-            //animator.SetBool(IsWalkingHash, false);
+            animator.SetBool(IsWalkingHash, false);
+            animator.SetBool(IsIdleHash, true);
         }
  
         if (animator)
@@ -177,7 +180,7 @@ public class CharacterMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = velocity;
+        rb.linearVelocity = velocity * speedMultiplier;;
     }
  
     void UpdateAim()
@@ -211,4 +214,20 @@ public class CharacterMovement : MonoBehaviour
         Facing8 = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
         AimDirection = new Vector2(Facing8.x, Facing8.y * isoYScale).normalized;
     }
+
+    public void StopMovement()
+    {
+        velocity = Vector2.zero;
+    }
+
+    public void RecieveDamage()
+    {
+        speedMultiplier = 0.3f;
+    }
+
+    public void ResetSpeed()
+    {
+        speedMultiplier = 1f;
+    }
+
 }

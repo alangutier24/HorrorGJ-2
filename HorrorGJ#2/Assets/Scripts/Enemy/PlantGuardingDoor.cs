@@ -19,6 +19,8 @@ public class PlantGuardingDoor : MonoBehaviour
 
     public float health = 100f;
 
+    private bool narrative = false;
+
     void Awake()
     {
         player = GameObject.FindWithTag("Player").GetComponent<CharacterMovement>();
@@ -59,8 +61,15 @@ public class PlantGuardingDoor : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             float lightAmount = GetLightAmount();
-            if (lightAmount > 0.5f) // Adjust the threshold as needed
+            if (lightAmount > 0.5f)
             {
+                if(!narrative)
+                {
+                    GameManager.Instance.gameState = GameManager.GameState.Episodes;
+                    GameManager.Instance.currentEpisode = GameManager.Episode.Episode11;
+                    narrative = true;
+                    return;
+                }
                 hittingLight += Time.deltaTime;
                 if (hittingLight >= hurtDuration)
                 {
