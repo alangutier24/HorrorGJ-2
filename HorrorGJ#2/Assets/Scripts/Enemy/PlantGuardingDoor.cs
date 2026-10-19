@@ -31,7 +31,7 @@ public class PlantGuardingDoor : MonoBehaviour
             
         if(!player.SwitchLight) return 0f;
 
-        Light2D light2D = player.light;
+        Light2D light2D = player.GetComponent<Light2D>();
         Vector2 point = transform.position;
         
         Vector2 origin = light2D.transform.position;

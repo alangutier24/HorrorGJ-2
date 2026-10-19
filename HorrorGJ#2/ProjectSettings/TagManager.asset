@@ -13,8 +13,8 @@ TagManager:
   - Water
   - UI
   - Interact
-  - 
-  - 
+  - Floor
+  - Object
   - 
   - 
   - 
@@ -41,6 +41,15 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 4178485015
+    locked: 0
+  - name: Object
+    uniqueID: 3409587773
+    locked: 0
+  - name: Player
+    uniqueID: 106400351
     locked: 0
   m_RenderingLayers:
   - Default

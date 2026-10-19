@@ -1,17 +1,22 @@
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 using System.Collections;
 
 public class CharacterMovement : MonoBehaviour
 {
 
     public IInteractable Interactable {get; set;}
-    static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
     static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
     static readonly int IsIdleHash = Animator.StringToHash("IsIdle");
-    [SerializeField]public Light2D light;
+    static readonly int IsIdleLightHash = Animator.StringToHash("IsIdleLight");
+    static readonly int IsIdleLightDirectionHash = Animator.StringToHash("IdleLightDirection");
+    static readonly int DirectionHash   = Animator.StringToHash("Direction");
+    static readonly int hasLightHash   = Animator.StringToHash("HasLight");
+
+    [FormerlySerializedAs("light")]
+    [SerializeField] public Light2D playerLight;
 
     [Header("Input")]
     [Tooltip("Value / Vector2 (WASD composite)")]
@@ -41,17 +46,6 @@ public class CharacterMovement : MonoBehaviour
     [Header("Animation (optional)")]
     [SerializeField] Animator animator;
  
-    static readonly int FacingXHash = Animator.StringToHash("FacingX");
-    static readonly int FacingYHash = Animator.StringToHash("FacingY");
-    static readonly int SpeedHash   = Animator.StringToHash("Speed");
-
-    static readonly int DirectionHash   = Animator.StringToHash("Direction");
-    
-    static readonly int DirectionLightHash   = Animator.StringToHash("DirectionLight");
-    static readonly int hasLightHash   = Animator.StringToHash("HasLight");
-
-
- 
     Rigidbody2D rb;
     Vector2 moveInput;
     Vector2 velocity;
@@ -78,7 +72,10 @@ public class CharacterMovement : MonoBehaviour
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         SetFacing(Facing8);
-        light.enabled = false;
+        playerLight.enabled = false;
+
+        animator.SetBool(IsIdleHash, true);
+        animator.SetBool(hasLightHash, false);
     }
  
     void OnEnable()
@@ -86,6 +83,7 @@ public class CharacterMovement : MonoBehaviour
         if (moveAction) moveAction.action.Enable();
         if (lockFacingAction) lockFacingAction.action.Enable();
         if (runAction) runAction.action.Enable();
+        if (switchLight) switchLight.action.Enable();
     }
  
     void OnDisable()
@@ -93,117 +91,117 @@ public class CharacterMovement : MonoBehaviour
         if (moveAction) moveAction.action.Disable();
         if (lockFacingAction) lockFacingAction.action.Disable();
         if (runAction) runAction.action.Disable();
+        if (switchLight) switchLight.action.Disable();
         if (aimPointAction) aimPointAction.action.Enable();
     }
  
 
     private float lightTimer = 3f;
     private float lightCooldown = 0.5f; // Cooldown in seconds
-    private float lightElpsed = 0f; // Threshold for light intensity
+    private float lightElapsed = 0f; // Threshold for light intensity
     private float speedMultiplier = 1f;
-    public void PlayerUpdate()
+    Vector2 dir = Vector2.zero;
+
+    private bool lightRequested;
+    private bool isLightCoolingDown;
+    public void PlayerInput()
     {
         moveInput = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
-        IsFacingLocked = lockFacingAction && lockFacingAction.action.IsPressed();
         IsRunning = runAction.action.IsPressed();
+        SwitchLight = switchLight && switchLight.action.WasPressedThisFrame();
 
-
+    }
+ 
+    public void UpdateMovement()
+    {       
         if (IsMoving)
         {
-            animator.SetBool(IsIdleHash, false);
-            Vector2 dir = moveInput.normalized;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            FacingIndex = ((Mathf.RoundToInt(angle / 45f) % 8) + 8) % 8;
-            //float angle = Mathf.Atan2(dir.y, dir.x);
-            //float t = (angle / (2f * Mathf.PI) + 1f) % 1f;
-            animator.SetFloat(DirectionHash, FacingIndex);
-
             float speed = IsRunning? runSpeed : moveSpeed;
-
             velocity = new Vector2(dir.x, dir.y * isoYScale) * speed;
-            //if (!IsFacingLocked) SetFacing(dir);
-
-            //animator.SetBool(IsWalkingHash, true);
-        }
+       }
         else
         {
             velocity = Vector2.zero;
-            animator.SetBool(IsWalkingHash, false);
-            animator.SetBool(IsIdleHash, true);
         }
- 
-        if (animator)
+    }
+
+    public void UpdateLight()
+    {
+        if (!hasLight) return;
+
+        if (SwitchLight && !playerLight.enabled && !isLightCoolingDown)
         {
-//            animator.SetFloat(FacingXHash, Facing8.x);
-//            animator.SetFloat(FacingYHash, Facing8.y);
-//            animator.SetFloat(SpeedHash, velocity.magnitude);
-        }
-
-
-        if(!hasLight) return;
-
-        if(switchLight.action.WasPressedThisFrame())
-        {
-           SwitchLight = !SwitchLight;
+            lightRequested = true;
         }
 
-        if(SwitchLight)
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        if (lightRequested && !animator.IsInTransition(0) && state.IsTag("Light"))
         {
-            lightElpsed += Time.deltaTime;
-            if(lightElpsed >= lightTimer)
+            playerLight.enabled = true;
+            lightRequested = false;
+            lightElapsed = 0f;
+        }
+
+        if (playerLight.enabled)
+        {
+            lightElapsed += Time.deltaTime;
+            if (lightElapsed >= lightTimer && !isLightCoolingDown)
             {
+                isLightCoolingDown = true;
                 StartCoroutine(LightCooldown());
-                lightElpsed = 0f;
             }
         }
 
-        animator.SetFloat(DirectionLightHash, FacingIndex);
-        animator.SetBool(hasLightHash, SwitchLight);
-
-        // Only show the light once the animator has fully reached a holding-light state,
-        // so it doesn't visibly slide into place during the transition.
-        bool inLightState = animator.GetCurrentAnimatorStateInfo(0).IsTag("Light") && !animator.IsInTransition(0);
-        light.enabled = SwitchLight && inLightState;
-        
     }
- 
+
+    public void UpdateAnimations()
+    {
+        if (IsMoving)
+        {
+            dir = moveInput.normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            FacingIndex = ((Mathf.RoundToInt(angle / 45f) % 8) + 8) % 8;
+        }
+
+        animator.SetBool(IsIdleHash, !IsMoving);
+        animator.SetBool(IsWalkingHash, IsMoving);
+        animator.SetBool(hasLightHash, hasLight);
+        animator.SetBool(IsIdleLightHash, !IsMoving && hasLight);
+        animator.SetFloat(DirectionHash, FacingIndex);
+        animator.SetFloat(IsIdleLightDirectionHash, FacingIndex / 8f);
+    }
+    
+    public void PlayerUpdate()
+    {
+        PlayerInput();
+        UpdateMovement();
+        UpdateLight();
+        UpdateAnimations();
+    }
     private IEnumerator LightCooldown()
     {
         yield return new WaitForSeconds(Random.Range(lightCooldown, lightCooldown * 2f));
-        SwitchLight = false;
-    }
-
-    void LateUpdate()
-    {
-        // UpdateAim();
+        playerLight.enabled = false;
+        isLightCoolingDown = false;
+        lightElapsed = 0f;
     }
 
     void FixedUpdate()
     {
-        rb.linearVelocity = velocity * speedMultiplier;;
+        if (knockbackTimeLeft > 0f)
+        {
+            knockbackTimeLeft -= Time.fixedDeltaTime;
+            rb.linearVelocity = knockbackVelocity;
+            return;
+        }
+        rb.linearVelocity = velocity * speedMultiplier;
     }
- 
-    void UpdateAim()
-    {
-        if (!cam || !light) return;
- 
-        Vector2 screenPos;
-        if (aimPointAction) screenPos = aimPointAction.action.ReadValue<Vector2>();
-        else if (Mouse.current != null) screenPos = Mouse.current.position.ReadValue();
-        else return;
- 
-        Vector3 origin = light.transform.position;
-        Vector3 world = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, origin.z - cam.transform.position.z));
-        Vector2 toCursor = (Vector2)(world - origin);
- 
-        // Cursor right on top of the light: keep the last direction
-        if (toCursor.sqrMagnitude < 0.0001f) return;
- 
-        AimDirection = toCursor.normalized;
- 
-        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-        light.transform.rotation = Quaternion.Euler(0f, 0f, angle + lightAngleOffset);
-    }
+
+    Vector2 knockbackVelocity;
+    float knockbackTimeLeft;
+    [SerializeField] float knockbackDuration = 2f;
+
+    [SerializeField] float knockbackForce = 1f;
 
     void SetFacing(Vector2 dir)
     {
@@ -220,9 +218,14 @@ public class CharacterMovement : MonoBehaviour
         velocity = Vector2.zero;
     }
 
+    float timer = 2.0f;
     public void RecieveDamage()
     {
-        speedMultiplier = 0.3f;
+        speedMultiplier = 0.7f;
+
+        Vector2 away = velocity.sqrMagnitude > 0.0001f ? velocity : new Vector2(dir.x, dir.y * isoYScale);
+        knockbackVelocity = -away * knockbackForce;
+        knockbackTimeLeft = knockbackDuration;
     }
 
     public void ResetSpeed()

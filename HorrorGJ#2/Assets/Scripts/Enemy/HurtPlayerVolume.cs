@@ -7,9 +7,9 @@ public class HurtPlayerVolume : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            Debug.Log("Player entered hurt volume");
             CharacterMovement player = collision.GetComponent<CharacterMovement>();
-            player.RecieveDamage();
+            if(Random.value < 0.5f)
+                player.RecieveDamage();
          }        
     }
 
@@ -17,7 +17,6 @@ public class HurtPlayerVolume : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            Debug.Log("Player exited hurt volume");
             CharacterMovement player = collision.GetComponent<CharacterMovement>();
             player.ResetSpeed();
         }

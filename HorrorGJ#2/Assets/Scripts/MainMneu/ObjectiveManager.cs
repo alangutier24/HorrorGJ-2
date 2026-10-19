@@ -12,6 +12,7 @@ public class ObjectiveManager : MonoBehaviour
     [SerializeField] public GameObject objectiveUI;
     [SerializeField] public TMP_Text objectiveText;
     [SerializeField] public TMP_Text objectiveDescription;
+    [SerializeField] public Animator anim;
 
     public bool doneShowingObjective = false;
 
@@ -30,6 +31,8 @@ public class ObjectiveManager : MonoBehaviour
         objectiveUI = GameObject.Find("ObjectiveCanvas");
         if(objectiveUI == null)
             return;
+
+        anim = GameObject.Find("ObjectivePanel").GetComponent<Animator>();
         objectiveText = GameObject.Find("Objective").GetComponent<TMP_Text>();
         objectiveDescription = GameObject.Find("ObjectiveDescription").GetComponent<TMP_Text>();
         objectiveUI.SetActive(false);
@@ -49,6 +52,8 @@ public class ObjectiveManager : MonoBehaviour
     public void ShowObjectiveUI(Objective objective)
     {
         objectiveUI.SetActive(true);
+        anim.SetBool("BigObjective", true);
+        anim.SetBool("SmallObjective", false);
         objectiveText.text = objective.objectiveName;
         objectiveDescription.text = objective.objectiveDescription;
         StartCoroutine(CloseObjective(5.0f));
@@ -64,12 +69,12 @@ public class ObjectiveManager : MonoBehaviour
         }
 
         HideObjectiveUI();
-
     }
 
     public void HideObjectiveUI()
     {
-        objectiveUI.SetActive(false);
+        anim.SetBool("BigObjective", false);
+        anim.SetBool("SmallObjective", true);
         doneShowingObjective = true;
     }
 

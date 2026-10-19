@@ -451,6 +451,7 @@ MonoBehaviour:
   objectiveUI: {fileID: 0}
   objectiveText: {fileID: 0}
   objectiveDescription: {fileID: 0}
+  anim: {fileID: 0}
   doneShowingObjective: 0
 --- !u!4 &405111614
 Transform:
