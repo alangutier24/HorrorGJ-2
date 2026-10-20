@@ -29,27 +29,25 @@ public class PlantGuardingDoor : MonoBehaviour
 
     public float GetLightAmount()   {
             
-        if(!player.SwitchLight) return 0f;
+        if(!player.playerLight.enabled) return 0f;
 
-        Light2D light2D = player.GetComponent<Light2D>();
+        Light2D light2D = player.GetComponentInChildren<Light2D>();
         Vector2 point = transform.position;
         
         Vector2 origin = light2D.transform.position;
         Vector2 toPoint = point - origin;
         float dist = toPoint.magnitude;
 
-        float hittingLight = 0f;
+        float hittingLight;
 
         if (dist > light2D.pointLightOuterRadius)
         {
-            hittingLight = 0f;
             return 0;
         } 
 
         float angle = Vector2.Angle(light2D.transform.up, toPoint);
         if (angle > light2D.pointLightOuterAngle * 0.5f) 
         {
-            hittingLight = 0f;
             return 0;
         }
         hittingLight = 1f - Mathf.InverseLerp(light2D.pointLightInnerRadius, light2D.pointLightOuterRadius, dist);
@@ -63,6 +61,7 @@ public class PlantGuardingDoor : MonoBehaviour
             float lightAmount = GetLightAmount();
             if (lightAmount > 0.5f)
             {
+                Debug.Log("Player is in trigger with light on");
                 if(!narrative)
                 {
                     GameManager.Instance.gameState = GameManager.GameState.Episodes;

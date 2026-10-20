@@ -24,8 +24,6 @@ public class Enemy : MonoBehaviour
         lights = Object.FindObjectsByType<Light2D>();
         System.Array.Resize(ref lights, lights.Length + 1);
         lights[lights.Length - 1] = pcm.GetComponent<Light2D>();
-        foreach (var l in lights) Debug.Log($"Luz encontrada: {l.name}", l);
-        Debug.Log(lights.Length);
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.velocity = new Vector2(2f, 1f);

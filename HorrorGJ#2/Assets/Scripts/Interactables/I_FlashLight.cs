@@ -26,7 +26,7 @@ public class I_FlashLight : MonoBehaviour, IInteractable
         hasInteracted = true;
 
         if (light != null)
-            light.enabled = true;
+            light.enabled = false;
 
         if (playerInRange != null)
         {

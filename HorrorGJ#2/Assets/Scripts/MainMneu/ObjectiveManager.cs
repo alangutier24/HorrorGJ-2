@@ -34,7 +34,9 @@ public class ObjectiveManager : MonoBehaviour
 
         anim = GameObject.Find("ObjectivePanel").GetComponent<Animator>();
         objectiveText = GameObject.Find("Objective").GetComponent<TMP_Text>();
-        objectiveDescription = GameObject.Find("ObjectiveDescription").GetComponent<TMP_Text>();
+        GameObject objectiveDescriptionGO = GameObject.Find("ObjectiveDescription");
+        objectiveDescription = objectiveDescriptionGO.GetComponent<TMP_Text>();
+        objectiveDescriptionGO.SetActive(false);
         objectiveUI.SetActive(false);
     }
 

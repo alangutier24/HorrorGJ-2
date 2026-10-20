@@ -81,7 +81,6 @@ public class CharacterMovement : MonoBehaviour
     void OnEnable()
     {
         if (moveAction) moveAction.action.Enable();
-        if (lockFacingAction) lockFacingAction.action.Enable();
         if (runAction) runAction.action.Enable();
         if (switchLight) switchLight.action.Enable();
     }
@@ -89,12 +88,14 @@ public class CharacterMovement : MonoBehaviour
     void OnDisable()
     {
         if (moveAction) moveAction.action.Disable();
-        if (lockFacingAction) lockFacingAction.action.Disable();
         if (runAction) runAction.action.Disable();
         if (switchLight) switchLight.action.Disable();
-        if (aimPointAction) aimPointAction.action.Enable();
     }
  
+    void Start()
+    {
+        playerLight.enabled = false;
+    }
 
     private float lightTimer = 3f;
     private float lightCooldown = 0.5f; // Cooldown in seconds
@@ -108,8 +109,7 @@ public class CharacterMovement : MonoBehaviour
     {
         moveInput = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
         IsRunning = runAction.action.IsPressed();
-        SwitchLight = switchLight && switchLight.action.WasPressedThisFrame();
-
+        SwitchLight = switchLight.action.WasPressedThisFrame();
     }
  
     public void UpdateMovement()
