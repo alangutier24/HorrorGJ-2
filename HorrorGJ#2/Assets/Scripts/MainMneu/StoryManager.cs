@@ -26,8 +26,6 @@ public class StoryManager : MonoBehaviour
         MyBedroom,
         DoorGuardian
     }
-
-    private bool wakingUpCompleted = false;
     private bool wtfCompleted = false;
     private bool whatHappenedCompleted = false;
     private bool findingRichardsLaptopCompleted = false;
@@ -40,8 +38,6 @@ public class StoryManager : MonoBehaviour
     private bool doorGuardianCompleted = false;
 
     public StoryState storyState;
-
-    public FadeCanvas fcanvas;
 
     public DialoguePanelUI dialoguePanelUI;
 
@@ -70,20 +66,13 @@ public class StoryManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        dialoguePanelUI = GameObject.FindFirstObjectByType<DialoguePanelUI>();
+        dialoguePanelUI = FindAnyObjectByType<DialoguePanelUI>();
 
         if (dialoguePanelUI == null)
         {
             return;
         }
 
-        fcanvas = GameObject.FindFirstObjectByType<FadeCanvas>();
-        if (fcanvas == null)
-        {
-            return;
-        }
-
-        fcanvas.SetActive(true);
     }
 
     private bool storyStarted = false;
@@ -94,7 +83,6 @@ public class StoryManager : MonoBehaviour
         // No iniciar la historia mientras siga activa otra escena
         // o no se haya encontrado el FadeCanvas.
         if (SceneManager.GetActiveScene().name != "Game" ||
-            fcanvas == null ||
             dialoguePanelUI == null)
             return;
 
@@ -198,7 +186,6 @@ public class StoryManager : MonoBehaviour
     private IEnumerator StartStory(Dialogue dialogue)
     {
         yield return StartCoroutine(dialoguePanelUI.ShowDialogue(dialogue));
-        fcanvas.FadeIn();
         storyFinished = true;
     }
 

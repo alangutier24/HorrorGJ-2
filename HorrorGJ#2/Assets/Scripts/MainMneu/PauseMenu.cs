@@ -8,7 +8,7 @@ public class PauseMenu : MonoBehaviour
     public static PauseMenu Instance {get; private set;}
     [SerializeField] Slider sliderMusic;
     [SerializeField] Slider sliderSfx;
-    [SerializeField] GameObject pauseMenu;
+    [SerializeField] public GameObject pauseMenu;
 
     private bool pause = false;
 

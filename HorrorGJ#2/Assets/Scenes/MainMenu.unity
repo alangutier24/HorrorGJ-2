@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 226445369}
   - component: {fileID: 226445368}
   - component: {fileID: 226445367}
+  - component: {fileID: 226445371}
   m_Layer: 5
   m_Name: MenuCanvas
   m_TagString: Untagged
@@ -382,7 +383,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &226445370
 RectTransform:
@@ -404,6 +405,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &226445371
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226445366}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &357907750 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1876200061287287139, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
@@ -479,6 +492,9 @@ GameObject:
   - component: {fileID: 724537444}
   - component: {fileID: 724537446}
   - component: {fileID: 724537445}
+  - component: {fileID: 724537448}
+  - component: {fileID: 724537447}
+  - component: {fileID: 724537449}
   m_Layer: 5
   m_Name: MenuPanel
   m_TagString: Untagged
@@ -521,7 +537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -546,6 +562,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724537443}
   m_CullTransparentMesh: 1
+--- !u!95 &724537447
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724537443}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5d970a1aab17343609a0314c0f3d9b19, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &724537448
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724537443}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &724537449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724537443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36433f41f6e11407d82e6eaa9b0056ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FadeCanvas
 --- !u!1 &765816352
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,6 +694,7 @@ MonoBehaviour:
   whatHappenedScene: {fileID: 0}
   laptop: {fileID: 0}
   houseScene: {fileID: 0}
+  fadeCanvas: {fileID: 0}
   notes: {fileID: 0}
   doorGuardianScene: {fileID: 0}
   gameState: 0
@@ -641,6 +704,7 @@ MonoBehaviour:
   episode3Started: 0
   episode4Started: 0
   episode11Started: 0
+  narrativeScreenLoaded: 0
 --- !u!4 &810268084
 Transform:
   m_ObjectHideFlags: 0
@@ -737,8 +801,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoryManager
   story:
   - name: Waking Up
-    sentences:
-    - What happened? Why is the lab such a mess?
+    sentences: []
   - name: WTF
     sentences:
     - What the fuck? Fuck! I need those bandages! I'm losing too much blood!
@@ -746,9 +809,8 @@ MonoBehaviour:
     sentences:
     - The plant I was working on attacked me?! How?! There's no indication that something
       like this is even possible! What changed?!
-    - The blackout! The plants stopped being exposed to the radiation lamps, triggering
-      an immediate growth spurt.
-    - As if they were just dormant. But how could they have gained consciousness?!
+    - 'I need more information. Where is Richard''s laptop. It''s not here in the
+      lab. '
   - name: Finding Richards Laptop
     sentences:
     - 'I need Richard''s laptop. It''s gotta be here somewhere. '
@@ -776,10 +838,12 @@ MonoBehaviour:
       me, I can trap it inside and burn the fucker toa crisp!
   - name: Door Guardian
     sentences:
-    - 'What the fuck is this? '
-    - 'It''s blocking the exit.  '
+    - 'The blackout! The plants stopped being exposed to the radiation lamps, triggering
+      an immediate growth spurt. '
+    - 'As if they were just dormant. But how could they have gained consciousness?! '
+    - 'The light!" If it caused this horrible reaction on my arm, maybe it can do
+      the same thing to these plants. '
   storyState: 0
-  fcanvas: {fileID: 0}
   dialoguePanelUI: {fileID: 0}
   storyFinished: 0
 --- !u!4 &1177109419

@@ -14,14 +14,12 @@ public class Enemy : MonoBehaviour
 
     private Light2D[] lights;
 
-    private bool active = true; // true now for testing
-
     void Start()
     {
         pcm = GameObject.FindWithTag("Player").GetComponent<CharacterMovement>();
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        lights = Object.FindObjectsByType<Light2D>();
+        lights = pcm.GetComponentsInChildren<Light2D>();
         System.Array.Resize(ref lights, lights.Length + 1);
         lights[lights.Length - 1] = pcm.GetComponent<Light2D>();
         agent.updateRotation = false;
@@ -48,6 +46,7 @@ public class Enemy : MonoBehaviour
     public float GetLightAmount(Vector2 point)
     {
         if(lights.Length == 0) return 0;
+        if(pcm.playerLight == null) return 0;
         float hittingLight = 0;
         foreach(Light2D light2D in lights)
         {       

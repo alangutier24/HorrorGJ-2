@@ -34,8 +34,6 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] InputActionReference aimPointAction;
     [Tooltip("Camera used to convert the cursor to world space. Defaults to Camera.main.")]
     [SerializeField] UnityEngine.Camera cam;
-    [Tooltip("Spot Light2D points along its local Y, so -90 aligns it with the aim angle.")]
-    [SerializeField] float lightAngleOffset = -90f;
 
     [Header("Movement")]
     [SerializeField] public float moveSpeed = 3f;
@@ -218,7 +216,6 @@ public class CharacterMovement : MonoBehaviour
         velocity = Vector2.zero;
     }
 
-    float timer = 2.0f;
     public void RecieveDamage()
     {
         speedMultiplier = 0.7f;

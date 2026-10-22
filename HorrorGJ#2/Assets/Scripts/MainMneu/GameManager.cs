@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public WhatHappenedScene whatHappenedScene;
     [SerializeField] public I_Laptop laptop;
     [SerializeField] public HouseScene houseScene;
+    [SerializeField] public FadeCanvas fadeCanvas;
     CircleCollider2D laptopCollider;
 
     [SerializeField] public I_Notes notes;
@@ -40,12 +41,13 @@ public class GameManager : MonoBehaviour
         End,
         Win, 
         Loose, 
-        Game
+        Game,
+        NarrativeScreen
     }
 
     public enum Episode
     {
-        Episode1, //Wake up
+        Episode1, //WTF
         Episode2, // WTF
         Episode3, // What happened
         Episode4, // House
@@ -60,10 +62,7 @@ public class GameManager : MonoBehaviour
 
     public GameState gameState;
     public Episode currentEpisode;
-    private bool storyStarted = false;
     private bool mainMenuLoaded = false;
-    private GameObject ECanvas;
-    private Animator eanim;
 
     private Objective curObjective;
 
@@ -84,6 +83,8 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        fadeCanvas = FindAnyObjectByType<FadeCanvas>(FindObjectsInactive.Include);
+
         GameObject playerGO = GameObject.FindWithTag("Player");
         if(playerGO == null)
             return;
@@ -102,15 +103,9 @@ public class GameManager : MonoBehaviour
 
         houseScene = GameObject.FindAnyObjectByType<HouseScene>();
 
-        notes = GameObject.FindAnyObjectByType<I_Notes>();
-        notesCollider = notes.GetComponent<CircleCollider2D>();
-        notesCollider.enabled = false;
-        notes.enabled = false;
-
         doorGuardianScene = GameObject.FindAnyObjectByType<DoorGuardianScene>();
-    }
 
-    private bool play = true;
+    }
 
     public bool episode1Started = false;
 
@@ -121,6 +116,8 @@ public class GameManager : MonoBehaviour
     public bool episode4Started = false;
 
     public bool episode11Started = false;
+
+    public bool narrativeScreenLoaded = false;
 
     void Update()
     {
@@ -135,10 +132,11 @@ public class GameManager : MonoBehaviour
                 }
             }
             break;
-             case GameState.Episodes:
+            
+            case GameState.Episodes:
                 {
                     // Game scene may not have finished loading yet
-                    if(wakingUpScene == null)
+                    if(SceneManager.GetActiveScene().name != "Game" || wakingUpScene == null)
                         break;
 
                     player.StopMovement();
@@ -152,8 +150,8 @@ public class GameManager : MonoBehaviour
                                     AudioManager.Instance.PlayMusic(LabMusic, 0.75f);
                                     episode1Started = true;
                                     AudioManager.Instance.PlaySFX(wakingUpScene.alarmSfx);
-                                    StoryManager.Instance.storyState = StoryManager.StoryState.WakingUp;
-                                    curObjective = wakingUpScene.objective;
+                                    StoryManager.Instance.storyState = StoryManager.StoryState.WTF;
+                                    curObjective = bandagesScene.objective;
                                     bandagesScene.enabled = true;
                                 }
                             }
@@ -163,37 +161,36 @@ public class GameManager : MonoBehaviour
                                 if(!episode2Started)
                                 {
                                     episode2Started = true;
-                                    StoryManager.Instance.storyState = StoryManager.StoryState.WTF;
-                                    curObjective = bandagesScene.objective;
+                                    StoryManager.Instance.storyState = StoryManager.StoryState.WhatHappened;
+                                    curObjective = whatHappenedScene.objective;
                                     whatHappenedScene.enabled = true;
-                                    CircleCollider2D cc = laptop.GetComponent<CircleCollider2D>();
                                     laptopCollider.enabled = true;
                                     laptop.enabled = true;
                                 }
                             }
                             break;
-                        case Episode.Episode3:
-                            {
-                                if(!episode3Started)
-                                {
-                                    episode3Started = true;
-                                    StoryManager.Instance.storyState = StoryManager.StoryState.WhatHappened;
-                                    curObjective = whatHappenedScene.objective;
-                                    notes.enabled = true;
-                                    notesCollider.enabled = true;
-                                }
-                            }
-                            break;
-                        case Episode.Episode4:
-                            {
-                                if(!episode4Started)
-                                {
-                                    episode3Started = true;
-                                    StoryManager.Instance.storyState = StoryManager.StoryState.House;
-                                    curObjective = houseScene.objective;
-                                }
-                            }
-                            break;
+                        // case Episode.Episode3:
+                        //     {
+                        //         if(!episode3Started)
+                        //         {
+                        //             episode3Started = true;
+                        //             StoryManager.Instance.storyState = StoryManager.StoryState.TheLight;
+                        //             curObjective = theLightScene.objective;
+                        //             notes.enabled = true;
+                        //             notesCollider.enabled = true;
+                        //         }
+                        //     }
+                        //     break;
+                        // case Episode.Episode4:
+                        //     {
+                        //         if(!episode4Started)
+                        //         {
+                        //             episode4Started = true;
+                        //             StoryManager.Instance.storyState = StoryManager.StoryState.House;
+                        //             curObjective = houseScene.objective;
+                        //         }
+                        //     }
+                        //     break;
                         case Episode.Episode11:
                             {
                                 if(!episode11Started)
@@ -220,10 +217,12 @@ public class GameManager : MonoBehaviour
                     }
                 }
             break;  
+            
             case GameState.MainMenu:
             {
                 if(!mainMenuLoaded)
                 {
+                    FadeCanvas.Instance.SetStatesActive(false);
                     AudioManager.Instance.PlayMusic(MainMenuMusic, 1.5f);
                     mainMenuLoaded = true;
                 }
@@ -252,8 +251,42 @@ public class GameManager : MonoBehaviour
             }
             break;
 
+            case GameState.NarrativeScreen:
+            {
+                if(SceneManager.GetActiveScene().name != "Game" )
+                    break;
+                if(!narrativeScreenLoaded)
+                {
+                    narrativeScreenLoaded = true;
+                    DialogueManager.Instance.SetActiveDialoguePanel(false);
+                    PauseMenu.Instance.pauseMenu.SetActive(false);
+                    FadeCanvas.Instance.SetNarrativeText("Amanda woke up in her lab alone.\n" +
+                    "She feels disoriented and her arm is bleeding.\nHow long has she been there? ");
+
+                    StartCoroutine(ShowNarrativeScreen());
+                }
+            }
+            break;
+
         }
         
+    }
+
+    float displayTime = 10f;
+    IEnumerator ShowNarrativeScreen()
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime < displayTime)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        FadeCanvas.Instance.RemoveNarrative();
+        FadeCanvas.Instance.SetStatesActive(true);
+        FadeCanvas.Instance.FadeIn();
+        DialogueManager.Instance.SetActiveDialoguePanel(true);
+        GameManager.Instance.gameState = GameManager.GameState.Episodes;
+        GameManager.Instance.currentEpisode = GameManager.Episode.Episode1;
     }
 
 }

@@ -45,7 +45,7 @@ public class TypeWritterEffect : MonoBehaviour
             charIndex = Mathf.FloorToInt(elapsed);
             charIndex = Mathf.Clamp(charIndex, 0, textToType.Length);
 
-            float waitTime = 0;
+            float waitTime = 0f;
 
             bool isLast = charIndex >= textToType.Length - 1;
             
@@ -58,8 +58,9 @@ public class TypeWritterEffect : MonoBehaviour
                 yield return new WaitForSeconds(waitTime);
             }
 
-
-            yield return null;
+            float baseWaitTime = 0.005f;
+            elapsed += baseWaitTime;
+            yield return new WaitForSeconds(baseWaitTime);
         }
 
         isRunning = false;

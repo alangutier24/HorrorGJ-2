@@ -14,7 +14,6 @@ public class PlantGuardingDoor : MonoBehaviour
     [SerializeField] CharacterMovement player;
 
     private float hittingLight = 0f;
-    private bool isHurt = false;
     private float hurtDuration = 1f;
 
     public float health = 100f;

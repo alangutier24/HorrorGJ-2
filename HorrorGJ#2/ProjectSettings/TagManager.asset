@@ -15,7 +15,7 @@ TagManager:
   - Interact
   - Floor
   - Object
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 106400351
+    locked: 0
+  - name: Enemy
+    uniqueID: 1165676221
     locked: 0
   m_RenderingLayers:
   - Default

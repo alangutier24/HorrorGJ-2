@@ -22,8 +22,8 @@ public class DialoguePanelUI : MonoBehaviour
     {
         dialogueBox = GameObject.Find("DialogueCanvas");
         textLabel = GameObject.Find("Dialogue").GetComponent<TMP_Text>();
-        typeWritterEffect = FindFirstObjectByType<TypeWritterEffect>();
-        responseHandler = FindFirstObjectByType<ResponseHandler>();
+        typeWritterEffect = FindAnyObjectByType<TypeWritterEffect>();
+        responseHandler = FindAnyObjectByType<ResponseHandler>();
     }
 
     void Start()
