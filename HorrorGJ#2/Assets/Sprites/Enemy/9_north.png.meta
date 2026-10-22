@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: d955cd8a964964a8fbc3943306201177
+guid: 04e898d614ec3c74b9ae06da810b42aa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4239539094005198325
-    second: 9_north_0
-  - first:
-      213: 7108286196894045751
-    second: 9_north_1
+      213: -101506837233873386
+    second: 9_north 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -99,75 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 9_north_0
+      name: 9_north 1_0
       rect:
         serializedVersion: 2
-        x: 2872
-        y: 2319
-        width: 19
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5fdaf8d085ed5da30800000000000000
-      internalID: 4239539094005198325
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 9_north_1
-      rect:
-        serializedVersion: 2
-        x: 2401
+        x: 2403
         y: 1095
-        width: 958
-        height: 1185
+        width: 954
+        height: 1184
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7369eaf72a4b5a260800000000000000
-      internalID: 7108286196894045751
+      spriteID: 61ec660c110679ef0800000000000000
+      internalID: -101506837233873386
       vertices: []
       indices: 
       edges: []
@@ -176,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0f1c873bbf5de4f8da4f698c442c6a83
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -184,12 +133,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      9_north_0: 4239539094005198325
-      9_north_1: 7108286196894045751
+      9_north 1_0: -101506837233873386
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

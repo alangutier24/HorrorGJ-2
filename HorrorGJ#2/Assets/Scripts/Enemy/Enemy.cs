@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
         lights[lights.Length - 1] = pcm.GetComponent<Light2D>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.velocity = new Vector2(2f, 1f);
+        agent.velocity = new Vector2(6f, 3f);
 
     }
     //Knows the players location at all times
