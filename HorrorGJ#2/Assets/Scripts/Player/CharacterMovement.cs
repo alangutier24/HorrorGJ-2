@@ -169,6 +169,10 @@ public class CharacterMovement : MonoBehaviour
         animator.SetFloat(IsIdleLightDirectionHash, FacingIndex / 8f);
     }
     
+    public void IsIdle()
+    {
+        animator.SetBool(IsIdleHash, true);
+    }
     public void PlayerUpdate()
     {
         PlayerInput();

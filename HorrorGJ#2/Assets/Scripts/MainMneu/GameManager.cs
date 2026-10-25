@@ -153,6 +153,7 @@ public class GameManager : MonoBehaviour
                                     StoryManager.Instance.storyState = StoryManager.StoryState.WTF;
                                     curObjective = bandagesScene.objective;
                                     bandagesScene.enabled = true;
+                                    player.StopMovement();
                                 }
                             }
                             break;
@@ -166,6 +167,7 @@ public class GameManager : MonoBehaviour
                                     whatHappenedScene.enabled = true;
                                     laptopCollider.enabled = true;
                                     laptop.enabled = true;
+                                    player.StopMovement();
                                 }
                             }
                             break;
@@ -199,11 +201,14 @@ public class GameManager : MonoBehaviour
                                     StoryManager.Instance.storyState = StoryManager.StoryState.DoorGuardian;
                                     curObjective = doorGuardianScene.objective;
                                     doorGuardianScene.enabled = true;
+                                    player.StopMovement();
                                 }
                             }
                             break;
                     }
-
+                  
+                    player.IsIdle();
+                    player.PlayerUpdate();
                     StoryManager.Instance.StoryUpdate();
                     if(StoryManager.Instance.storyFinished)
                     {

@@ -807,8 +807,9 @@ MonoBehaviour:
     - What the fuck? Fuck! I need those bandages! I'm losing too much blood!
   - name: What happened!?
     sentences:
-    - The plant I was working on attacked me?! How?! There's no indication that something
-      like this is even possible! What changed?!
+    - The plant I was working on attacked me?!
+    - 'How?! '
+    - 'There''s no indication that something like this is even possible! What changed?! '
     - 'I need more information. Where is Richard''s laptop. It''s not here in the
       lab. '
   - name: Finding Richards Laptop
@@ -1459,7 +1460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1316192046081138183, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1876200061287287139, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_Value
@@ -1511,7 +1512,7 @@ PrefabInstance:
       objectReference: {fileID: 1927285934}
     - target: {fileID: 4006158734381012075, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5020680655582970442, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_Name
@@ -1567,11 +1568,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7352181676566200202, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 145
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7913350442593877680, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999818679696159077, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8912685834216589034, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_Name

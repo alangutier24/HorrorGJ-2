@@ -9,6 +9,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float lightThreshhold = 0.7f;
     [SerializeField] public float chaseDistance = 15f;
     [SerializeField] public float attackDistance = 3f;
+
+    [SerializeField] public float minDist = 30f;
+    [SerializeField] public float maxDist = 90f;
+    [SerializeField] private Animator animator;
+    [Tooltip("Vertical scale for 2:1 iso tiles. 0.5 keeps ground speed equal in every direction and makes diagonals follow tile edges.")]
+    [SerializeField] float isoYScale = 0.5f;
+    readonly int directionHashTag = Animator.StringToHash("EnemyDirection");
     private Rigidbody2D rb;
     private UnityEngine.AI.NavMeshAgent agent;
 
@@ -19,17 +26,14 @@ public class Enemy : MonoBehaviour
         pcm = GameObject.FindWithTag("Player").GetComponent<CharacterMovement>();
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        animator = GetComponent<Animator>();
+
         lights = pcm.GetComponentsInChildren<Light2D>();
-        System.Array.Resize(ref lights, lights.Length + 1);
-        lights[lights.Length - 1] = pcm.GetComponent<Light2D>();
+
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.velocity = new Vector2(6f, 3f);
-
     }
-    //Knows the players location at all times
-    //moves closer when in dark
-
 
     public void MoveToPlayer()
     {
@@ -66,7 +70,6 @@ public class Enemy : MonoBehaviour
                 hittingLight = 0f;
                 continue;
             }
-            // 1 inside inner radius, fading to 0 at outer radius
             hittingLight = 1f - Mathf.InverseLerp(light2D.pointLightInnerRadius, light2D.pointLightOuterRadius, dist);
         }
         return hittingLight;
@@ -77,13 +80,15 @@ public class Enemy : MonoBehaviour
         if(!pcm.SwitchLight)
             return true;
 
+        Debug.Log("Light amount: " + GetLightAmount(transform.position));
+
         return GetLightAmount(transform.position) <= lightThreshhold;
     }
 
     public bool RandomPointAway(
     Vector2 origin, Vector2 threat,
     float minDist, float maxDist, float coneAngle,
-    out Vector2 result, int attempts = 10, float sampleRadius = 30f)
+    out Vector2 result, int attempts = 10, float sampleRadius = 90f)
     {
         Vector2 away = origin - threat;
         if (away.sqrMagnitude < 0.0001f) away = Random.insideUnitCircle;
@@ -133,9 +138,18 @@ public class Enemy : MonoBehaviour
     {
         if(runAway) return;
 
-        bool returnPoint = RandomPointAway(transform.position, player.position, 8f, 15f, 45, out point);
+        bool returnPoint = RandomPointAway(transform.position, player.position, minDist, maxDist, 45, out point);
         agent.SetDestination(point);
         runAway = true;
+    }
+
+    public void SetFacing()
+    {
+        Vector2 direction = (player.position - transform.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        int FacingIndex = ((Mathf.RoundToInt(angle / 45f) % 8) + 8) % 8;
+ 
+        animator.SetFloat(directionHashTag, FacingIndex);
     }
 
 }
