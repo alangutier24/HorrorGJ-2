@@ -152,4 +152,14 @@ public class Enemy : MonoBehaviour
         animator.SetFloat(directionHashTag, FacingIndex);
     }
 
+    public void Stalk()
+    {
+        if(!agent.pathPending && agent.remainingDistance <= 3f)
+        {
+            Vector2 direction = (player.position - transform.position).normalized;
+            Vector2 target = (Vector2)transform.position + direction * minDist;
+            agent.SetDestination(target);
+        }
+    }
+
 }

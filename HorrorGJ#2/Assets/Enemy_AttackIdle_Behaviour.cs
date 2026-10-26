@@ -18,6 +18,8 @@ public class Enemy_AttackIdle_Behaviour : StateMachineBehaviour
             enemy.AgentStop();
         }
 
+        enemy.Stalk();
+
         animator.SetTrigger("Attack");
     }
 
