@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy_AttackIdle_Behaviour : StateMachineBehaviour
+public class Enemy_Stalk_Behaviour : StateMachineBehaviour
 {
     Enemy enemy;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -13,19 +13,31 @@ public class Enemy_AttackIdle_Behaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-        if(!enemy.InDark())
+
+        if (enemy.InDark())
         {
-            enemy.AgentStop();
+            enemy.Stalk();
+        }
+        else
+        {
+            animator.SetTrigger("Hurt");
         }
 
-        enemy.Stalk();
-
-        animator.SetTrigger("Attack");
+        if(enemy.ReachedEdgeOfPlayer() && !enemy.LightOn())
+        {
+            Debug.Log("Reached edge of player, switching to Chase.");
+            animator.SetTrigger("Chase");
+        }
+        else if(enemy.ReachedEdgeOfPlayer() && enemy.LightOn())
+        {
+            //enemy.TakeDamage();
+            enemy.Stalk();
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("Chase");
+        animator.ResetTrigger("Hurt");
     }
 }

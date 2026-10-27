@@ -1,4 +1,5 @@
 
+using System.Data;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -9,6 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float lightThreshhold = 0.7f;
     [SerializeField] public float chaseDistance = 15f;
     [SerializeField] public float attackDistance = 3f;
+    [SerializeField] public float stalkDistance = 7f;
 
     [SerializeField] public float minDist = 30f;
     [SerializeField] public float maxDist = 90f;
@@ -32,7 +34,7 @@ public class Enemy : MonoBehaviour
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.velocity = new Vector2(6f, 3f);
+        agent.velocity = new Vector2(10f, 5f);
     }
 
     public void MoveToPlayer()
@@ -77,10 +79,8 @@ public class Enemy : MonoBehaviour
 
     public bool InDark()
     {
-        if(!pcm.SwitchLight)
+        if(!pcm.lightOn)
             return true;
-
-        Debug.Log("Light amount: " + GetLightAmount(transform.position));
 
         return GetLightAmount(transform.position) <= lightThreshhold;
     }
@@ -126,18 +126,21 @@ public class Enemy : MonoBehaviour
     public bool runAway = false;
     Vector2 point;
     
-    public void RanFarEnough()
+    public bool RanFarEnough()
     {
         if(!agent.pathPending && agent.remainingDistance <= 3f)
         {
-            runAway = false;
+           return true;
         }
+        return false;
     }
 
     public void RunAway()
     {
         if(runAway) return;
-
+        Debug.Log("Running away from player.");
+        agent.isStopped = true;
+        agent.ResetPath();
         bool returnPoint = RandomPointAway(transform.position, player.position, minDist, maxDist, 45, out point);
         agent.SetDestination(point);
         runAway = true;
@@ -154,12 +157,42 @@ public class Enemy : MonoBehaviour
 
     public void Stalk()
     {
-        if(!agent.pathPending && agent.remainingDistance <= 3f)
+        agent.isStopped = false;
+        Vector2 direction = (player.position - transform.position).normalized;
+        Vector2 target = (Vector2)player.position - direction * (stalkDistance - 3f);
+        agent.SetDestination(target);
+    }
+
+    public void EnemyReset()
+    {
+        if(agent.isStopped)
         {
-            Vector2 direction = (player.position - transform.position).normalized;
-            Vector2 target = (Vector2)transform.position + direction * minDist;
-            agent.SetDestination(target);
+            agent.isStopped = false;
         }
+        agent.ResetPath();
+    }
+
+    public bool ReachedEdgeOfPlayer ()
+    {
+        if(!agent.pathPending && agent.remainingDistance <= stalkDistance)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public bool PlayerInAttackDistance()
+    {
+        if(!agent.pathPending && agent.remainingDistance <= attackDistance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool LightOn()
+    {
+        return pcm.playerLight.enabled;
     }
 
 }

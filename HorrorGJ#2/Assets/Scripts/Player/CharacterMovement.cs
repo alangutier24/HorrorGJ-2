@@ -59,7 +59,7 @@ public class CharacterMovement : MonoBehaviour
 
     public bool IsRunning;
 
-    public bool SwitchLight;
+    public bool lightOn;
 
     public bool hasLight = false;
  
@@ -93,6 +93,7 @@ public class CharacterMovement : MonoBehaviour
     void Start()
     {
         playerLight.enabled = false;
+        lightOn = false;
     }
 
     private float lightTimer = 3f;
@@ -107,7 +108,7 @@ public class CharacterMovement : MonoBehaviour
     {
         moveInput = moveAction ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
         IsRunning = runAction.action.IsPressed();
-        SwitchLight = switchLight.action.WasPressedThisFrame();
+        lightRequested = switchLight.action.WasPressedThisFrame();
     }
  
     public void UpdateMovement()
@@ -127,28 +128,32 @@ public class CharacterMovement : MonoBehaviour
     {
         if (!hasLight) return;
 
-        if (SwitchLight && !playerLight.enabled && !isLightCoolingDown)
+        if (lightRequested)
         {
-            lightRequested = true;
+            lightOn = !lightOn;
+            lightRequested = false;
         }
 
         AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
-        if (lightRequested && !animator.IsInTransition(0) && state.IsTag("Light"))
+        if (lightOn && !animator.IsInTransition(0) && state.IsTag("Light"))
         {
             playerLight.enabled = true;
-            lightRequested = false;
             lightElapsed = 0f;
         }
-
-        if (playerLight.enabled)
+        else if(!lightOn)
         {
-            lightElapsed += Time.deltaTime;
-            if (lightElapsed >= lightTimer && !isLightCoolingDown)
-            {
-                isLightCoolingDown = true;
-                StartCoroutine(LightCooldown());
-            }
+            playerLight.enabled = false;
         }
+
+        // if (playerLight.enabled)
+        // {
+        //     lightElapsed += Time.deltaTime;
+        //     if (lightElapsed >= lightTimer && !isLightCoolingDown)
+        //     {
+        //         isLightCoolingDown = true;
+        //         StartCoroutine(LightCooldown());
+        //     }
+        // }
 
     }
 
