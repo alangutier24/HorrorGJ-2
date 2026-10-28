@@ -20,7 +20,7 @@ public class Enemy_Stalk_Behaviour : StateMachineBehaviour
         }
         else
         {
-            animator.SetTrigger("Hurt");
+            //animator.SetTrigger("Hurt");
         }
 
         if(enemy.ReachedEdgeOfPlayer() && !enemy.LightOn())

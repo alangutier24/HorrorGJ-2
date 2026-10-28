@@ -124,26 +124,29 @@ public class Enemy : MonoBehaviour
     }
 
     public bool runAway = false;
-    Vector2 point;
     
-    public bool RanFarEnough()
+    public bool RanFarEnough(Vector2 point)
     {
-        if(!agent.pathPending && agent.remainingDistance <= 3f)
+        if(Vector2.Distance(transform.position, point) <= 7f)
         {
            return true;
         }
         return false;
     }
 
-    public void RunAway()
+    public Vector2 RunAway(bool run)
     {
-        if(runAway) return;
-        Debug.Log("Running away from player.");
+        if(!run) return Vector2.zero;
+
         agent.isStopped = true;
         agent.ResetPath();
-        bool returnPoint = RandomPointAway(transform.position, player.position, minDist, maxDist, 45, out point);
+        agent.isStopped = false;
+
+        Vector2 point;
+        RandomPointAway(transform.position, player.position, minDist, maxDist, 45, out point);
         agent.SetDestination(point);
-        runAway = true;
+
+        return point;
     }
 
     public void SetFacing()
@@ -183,7 +186,7 @@ public class Enemy : MonoBehaviour
     
     public bool PlayerInAttackDistance()
     {
-        if(!agent.pathPending && agent.remainingDistance <= attackDistance)
+        if(Vector2.Distance(transform.position, player.position) <= attackDistance)
         {
             return true;
         }

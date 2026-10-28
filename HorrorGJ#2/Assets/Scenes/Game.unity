@@ -4799,10 +4799,10 @@ MonoBehaviour:
   player: {fileID: 1823876068}
   lightThreshhold: 0.5
   chaseDistance: 60
-  attackDistance: 30
-  stalkDistance: 45
-  minDist: 60
-  maxDist: 75
+  attackDistance: 25
+  stalkDistance: 35
+  minDist: 45
+  maxDist: 90
   animator: {fileID: 901584878}
   isoYScale: 0.5
   runAway: 0

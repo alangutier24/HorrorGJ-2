@@ -4,8 +4,10 @@ public class Enemy_Chase_Behavior : StateMachineBehaviour
 {
     Transform player;
     Enemy enemy;
-
-    int runAwayCount = 0;
+    Vector2 randomPoint;
+    bool ranFarEnough = false;
+     
+    bool oneTimePass = false; 
 
     bool runAway = true;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -13,37 +15,36 @@ public class Enemy_Chase_Behavior : StateMachineBehaviour
     {
        player = GameObject.FindWithTag("Player").transform;
        enemy = animator.GetComponent<Enemy>();
+       oneTimePass = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        runAway = enemy.RanFarEnough();
-
-        if(enemy.LightOn() && enemy.PlayerInAttackDistance())
+        if(enemy.LightOn() && enemy.PlayerInAttackDistance() && !oneTimePass)
         {
-            Debug.Log("Enemy is in the light");
-            if(!runAway && runAwayCount < 2)
-            {
-                Debug.Log("Running away from player.");
-                enemy.runAway = false;
-                enemy.RunAway();
-                runAwayCount++;
-                //animator.SetTrigger("Stalk");
-            }
-
+            oneTimePass = true;
+            randomPoint = enemy.RunAway(true);
         }
-        else
+
+        if(!enemy.LightOn())
         {
+            oneTimePass = false;
+            randomPoint = Vector2.zero;
             enemy.MoveToPlayer();
-            runAwayCount = 0;
         }
         
+        ranFarEnough = enemy.RanFarEnough(randomPoint);
+
+        if(ranFarEnough)
+        {
+            animator.SetTrigger("Stalk");
+        }
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("Chase");
     }
 }
