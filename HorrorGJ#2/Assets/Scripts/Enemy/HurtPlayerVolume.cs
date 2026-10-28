@@ -1,14 +1,22 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class HurtPlayerVolume : MonoBehaviour
 {
+    [SerializeField] private float pushRate;
+    [SerializeField] Light2D lightFlicker;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Start()
     {
-        if(collision.CompareTag("Player"))
+        lightFlicker = gameObject.GetComponent<Light2D>();
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Player") && lightFlicker.intensity != 0)
         {
             CharacterMovement player = collision.GetComponent<CharacterMovement>();
-            if(Random.value < 0.5f)
+            if(Random.value < pushRate)
                 player.RecieveDamage();
          }        
     }

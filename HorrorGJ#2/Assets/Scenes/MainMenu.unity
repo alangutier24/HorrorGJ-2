@@ -839,8 +839,16 @@ MonoBehaviour:
       me, I can trap it inside and burn the fucker toa crisp!
   - name: Door Guardian
     sentences:
-    - 'The blackout! The plants stopped being exposed to the radiation lamps, triggering
-      an immediate growth spurt. '
+    - 'The blackout! '
+    - 'The plants stopped being exposed to the radiation lamps, triggering an immediate
+      growth spurt. '
+    - 'As if they were just dormant. But how could they have gained consciousness?! '
+    - 'The light! '
+    - 'If it caused this horrible reaction on my arm, maybe it can do the same thing
+      to these plants. '
+  - name: Door Guardian
+    sentences:
+    - 'The blackout! '
     - 'As if they were just dormant. But how could they have gained consciousness?! '
     - 'The light!" If it caused this horrible reaction on my arm, maybe it can do
       the same thing to these plants. '

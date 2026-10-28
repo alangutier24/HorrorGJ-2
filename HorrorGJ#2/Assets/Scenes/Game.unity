@@ -856,6 +856,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 468165839}
     m_Modifications:
+    - target: {fileID: 4753475287365548763, guid: 0fef51c3d3bf5423182a4927feb5f3a1, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753475287365548763, guid: 0fef51c3d3bf5423182a4927feb5f3a1, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753475287365548763, guid: 0fef51c3d3bf5423182a4927feb5f3a1, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 5383146924750413251, guid: 0fef51c3d3bf5423182a4927feb5f3a1, type: 3}
       propertyPath: m_Name
       value: FadeCanvas
@@ -1683,7 +1695,7 @@ Transform:
   m_GameObject: {fileID: 431442919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -52.3, y: 14, z: 0}
+  m_LocalPosition: {x: -51.98, y: 13.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1819,6 +1831,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecdd4d77062b421daaf9ed62c1b68e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtPlayerVolume
+  pushRate: 1
+  lightFlicker: {fileID: 0}
 --- !u!60 &452393885
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1951,7 +1965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HangingLightSwing
   swingTarget: {fileID: 452393883}
   tiltVisual: {fileID: 0}
-  ropeLength: 2
+  ropeLength: 12
   swingDirection: {x: 1, y: 0.5}
   swingDistance: 100
   maxAngle: 89
@@ -2153,10 +2167,10 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.25
+  m_Intensity: 0.075
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 179f0ef9000000003d2e3acb
+  m_ApplyToSortingLayers: 179f0ef9000000003d2e3acbfd4df267bdce7a455f8a5706
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2534,8 +2548,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 106400351
-  m_SortingLayer: 3
+  m_SortingLayerID: -885379523
+  m_SortingLayer: 2
   m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: -175965209242369845, guid: a2b2117f2de876b498bb801f4ea1a6eb, type: 3}
@@ -2667,6 +2681,10 @@ PrefabInstance:
     - target: {fileID: 3289368025728158118, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetMusicVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125237552694065753, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5384680654964743950, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_Name
@@ -2837,7 +2855,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -2941,7 +2959,7 @@ Transform:
   m_GameObject: {fileID: 569982114}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.3, y: 31, z: 0}
+  m_LocalPosition: {x: 15.5, y: 31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3247,8 +3265,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 106400351
-  m_SortingLayer: 3
+  m_SortingLayerID: -885379523
+  m_SortingLayer: 2
   m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 303ecadc538654d2fb9736879504e6cd, type: 3}
@@ -3812,7 +3830,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -885379523
   m_SortingLayer: 2
-  m_SortingOrder: 10
+  m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 303ecadc538654d2fb9736879504e6cd, type: 3}
   m_Color: {r: 1, g: 0.76686984, b: 0, a: 1}
@@ -4367,6 +4385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecdd4d77062b421daaf9ed62c1b68e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtPlayerVolume
+  pushRate: 0.8
+  lightFlicker: {fileID: 0}
 --- !u!114 &862916622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4383,10 +4403,10 @@ MonoBehaviour:
   offIntensityFactor: 0
   smoothAmplitude: 0.3
   smoothSpeed: 3
-  timeOnRange: {x: 0.5, y: 3}
+  timeOnRange: {x: 4, y: 7}
   flickerCountRange: {x: 1, y: 4}
   flickerDurationRange: {x: 6, y: 9}
-  blackoutChance: 0.15
+  blackoutChance: 0.2
   blackoutDurationRange: {x: 0.5, y: 2}
   burstIntervalRange: {x: 1, y: 5}
   burstFlashesRange: {x: 3, y: 8}
@@ -4491,7 +4511,7 @@ Transform:
   m_GameObject: {fileID: 901584871}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55.3, y: 52.7, z: 0}
+  m_LocalPosition: {x: -215.8, y: -82.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4773,8 +4793,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 4.775
-  m_Speed: 7
-  m_Acceleration: 8
+  m_Speed: 8
+  m_Acceleration: 9
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -4998,6 +5018,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecdd4d77062b421daaf9ed62c1b68e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtPlayerVolume
+  pushRate: 0.8
+  lightFlicker: {fileID: 0}
 --- !u!114 &994844294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5010,14 +5032,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b59fac9d7e04936af6d84cc7938696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlickerLight2D
-  mode: 2
-  offIntensityFactor: 1
+  mode: 1
+  offIntensityFactor: 0
   smoothAmplitude: 0.7
   smoothSpeed: 5
-  timeOnRange: {x: 0.5, y: 3}
+  timeOnRange: {x: 2, y: 4}
   flickerCountRange: {x: 1, y: 4}
   flickerDurationRange: {x: 3, y: 5}
-  blackoutChance: 0.325
+  blackoutChance: 0.4
   blackoutDurationRange: {x: 5, y: 9}
   burstIntervalRange: {x: 1, y: 5}
   burstFlashesRange: {x: 3, y: 8}
@@ -6501,7 +6523,7 @@ Transform:
   m_GameObject: {fileID: 1449528717}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -164.40001, y: 43.600002, z: 0}
+  m_LocalPosition: {x: -89.3, y: 30.4, z: 0}
   m_LocalScale: {x: 15, y: 15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6784,7 +6806,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -885379523
   m_SortingLayer: 2
-  m_SortingOrder: 10
+  m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6284508338612480878, guid: 5fdf6f859a2d94fb7895aa6d8dfaf561, type: 3}
   m_Color: {r: 1, g: 1, b: 0, a: 1}
@@ -7295,7 +7317,7 @@ Transform:
   m_GameObject: {fileID: 1730131990}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2, y: 29.8, z: 0}
+  m_LocalPosition: {x: -0.27, y: 29.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7428,8 +7450,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 106400351
-  m_SortingLayer: 3
+  m_SortingLayerID: -885379523
+  m_SortingLayer: 2
   m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1102437739232161146, guid: b941fc6c1ec6f4afb9add98d737d5750, type: 3}
@@ -7857,6 +7879,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecdd4d77062b421daaf9ed62c1b68e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtPlayerVolume
+  pushRate: 0.5
+  lightFlicker: {fileID: 0}
 --- !u!1 &1823876067
 GameObject:
   m_ObjectHideFlags: 0
@@ -7889,7 +7913,7 @@ Transform:
   m_GameObject: {fileID: 1823876067}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -141.6, y: 57.5, z: 0}
+  m_LocalPosition: {x: -57.75, y: 53.73, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7941,8 +7965,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 106400351
-  m_SortingLayer: 3
+  m_SortingLayerID: -885379523
+  m_SortingLayer: 2
   m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3164809056393425246, guid: 6a5b77b5ae41e40c28d33cb5adb35aeb, type: 3}
@@ -8040,8 +8064,8 @@ MonoBehaviour:
   switchLight: {fileID: 3001919216989983466, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   aimPointAction: {fileID: 0}
   cam: {fileID: 519420031}
-  moveSpeed: 12
-  runSpeed: 18
+  moveSpeed: 9
+  runSpeed: 12
   isoYScale: 0.5
   animator: {fileID: 1823876073}
   IsRunning: 0
@@ -8472,7 +8496,7 @@ Transform:
   m_GameObject: {fileID: 1931050495}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.8, y: 49.8, z: 0}
+  m_LocalPosition: {x: -20.94, y: 49.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8605,8 +8629,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 106400351
-  m_SortingLayer: 3
+  m_SortingLayerID: -885379523
+  m_SortingLayer: 2
   m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 434d8d60cc84144ae97d8c39e22203e3, type: 3}
@@ -9058,7 +9082,7 @@ Transform:
   m_GameObject: {fileID: 2001604122}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.1, y: 51.2, z: 0}
+  m_LocalPosition: {x: -5.04, y: 51.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9305,8 +9329,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 106400351
-  m_SortingLayer: 3
+  m_SortingLayerID: -885379523
+  m_SortingLayer: 2
   m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: -4796868016289088429, guid: a70fc56b474bc410a810075abcac83ec, type: 3}
@@ -9914,6 +9938,10 @@ PrefabInstance:
     - target: {fileID: 7202773167915686284, guid: 70c9207ffa81346e9af28f580dd5ca2c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930693089074895349, guid: 70c9207ffa81346e9af28f580dd5ca2c, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

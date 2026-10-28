@@ -1,0 +1,637 @@
+fileFormatVersion: 2
+guid: 81ebca9e3250cfc4a957c8b608d04c25
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1137726279266403802
+    second: cuboard (1)_0
+  - first:
+      213: 898385432953391809
+    second: cuboard (1)_1
+  - first:
+      213: 604271377648848389
+    second: cuboard (1)_2
+  - first:
+      213: -2199356397020598550
+    second: cuboard (1)_3
+  - first:
+      213: -6670593403251483488
+    second: cuboard (1)_4
+  - first:
+      213: 7652828013737803042
+    second: cuboard (1)_5
+  - first:
+      213: -9044849686141119454
+    second: cuboard (1)_6
+  - first:
+      213: 9192726445465710096
+    second: cuboard (1)_7
+  - first:
+      213: 4633008532585046850
+    second: cuboard (1)_8
+  - first:
+      213: -3441000364524777275
+    second: cuboard (1)_9
+  - first:
+      213: -1044776703076629170
+    second: cuboard (1)_10
+  - first:
+      213: -6704746165219559614
+    second: cuboard (1)_11
+  - first:
+      213: -9113290588242108208
+    second: cuboard (1)_12
+  - first:
+      213: 1053274488222104916
+    second: cuboard (1)_13
+  - first:
+      213: -8104286273319431293
+    second: cuboard (1)_14
+  - first:
+      213: -4746342590605880656
+    second: cuboard (1)_15
+  - first:
+      213: -447912511612602143
+    second: cuboard (1)_16
+  - first:
+      213: -5117355327734143414
+    second: cuboard (1)_17
+  - first:
+      213: 5672834113382573055
+    second: cuboard (1)_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: cuboard (1)_0
+      rect:
+        serializedVersion: 2
+        x: 7424
+        y: 4581
+        width: 40
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62af2b81afbf530f0800000000000000
+      internalID: -1137726279266403802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_1
+      rect:
+        serializedVersion: 2
+        x: 7453
+        y: 4623
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ca829a9ac4b77c00800000000000000
+      internalID: 898385432953391809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_2
+      rect:
+        serializedVersion: 2
+        x: 7454
+        y: 4613
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50e02bccd9dc26800800000000000000
+      internalID: 604271377648848389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_3
+      rect:
+        serializedVersion: 2
+        x: 7465
+        y: 4614
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aeeaa1572015a71e0800000000000000
+      internalID: -2199356397020598550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_4
+      rect:
+        serializedVersion: 2
+        x: 7384
+        y: 4564
+        width: 19
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ac912e54aa4d63a0800000000000000
+      internalID: -6670593403251483488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_5
+      rect:
+        serializedVersion: 2
+        x: 7395
+        y: 4580
+        width: 24
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22dfff5388e443a60800000000000000
+      internalID: 7652828013737803042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_6
+      rect:
+        serializedVersion: 2
+        x: 7418
+        y: 4571
+        width: 19
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22451c2d12d3a7280800000000000000
+      internalID: -9044849686141119454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_7
+      rect:
+        serializedVersion: 2
+        x: 6521
+        y: 2876
+        width: 1415
+        height: 1703
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01ea25b3fff139f70800000000000000
+      internalID: 9192726445465710096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_8
+      rect:
+        serializedVersion: 2
+        x: 7941
+        y: 4153
+        width: 28
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 243e512b6b0cb4040800000000000000
+      internalID: 4633008532585046850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_9
+      rect:
+        serializedVersion: 2
+        x: 7898
+        y: 3696
+        width: 45
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c0d280566c1f30d0800000000000000
+      internalID: -3441000364524777275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_10
+      rect:
+        serializedVersion: 2
+        x: 7900
+        y: 3614
+        width: 37
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e45838fbf153081f0800000000000000
+      internalID: -1044776703076629170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_11
+      rect:
+        serializedVersion: 2
+        x: 7936
+        y: 3648
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 247fce0d2e4f3f2a0800000000000000
+      internalID: -6704746165219559614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_12
+      rect:
+        serializedVersion: 2
+        x: 7925
+        y: 3589
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d02be88e76178180800000000000000
+      internalID: -9113290588242108208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_13
+      rect:
+        serializedVersion: 2
+        x: 6830
+        y: 3459
+        width: 19
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45db579019bfd9e00800000000000000
+      internalID: 1053274488222104916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_14
+      rect:
+        serializedVersion: 2
+        x: 7938
+        y: 3533
+        width: 27
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38398b0a29ac78f80800000000000000
+      internalID: -8104286273319431293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_15
+      rect:
+        serializedVersion: 2
+        x: 7940
+        y: 3509
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b211a0af8a912eb0800000000000000
+      internalID: -4746342590605880656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_16
+      rect:
+        serializedVersion: 2
+        x: 7938
+        y: 3463
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e8b0ee91f1b8c9f0800000000000000
+      internalID: -447912511612602143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_17
+      rect:
+        serializedVersion: 2
+        x: 6036
+        y: 1676
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4624fc31708bf8b0800000000000000
+      internalID: -5117355327734143414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cuboard (1)_18
+      rect:
+        serializedVersion: 2
+        x: 6040
+        y: 1626
+        width: 51
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff3e2e5f194f9be40800000000000000
+      internalID: 5672834113382573055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      cuboard (1)_0: -1137726279266403802
+      cuboard (1)_1: 898385432953391809
+      cuboard (1)_10: -1044776703076629170
+      cuboard (1)_11: -6704746165219559614
+      cuboard (1)_12: -9113290588242108208
+      cuboard (1)_13: 1053274488222104916
+      cuboard (1)_14: -8104286273319431293
+      cuboard (1)_15: -4746342590605880656
+      cuboard (1)_16: -447912511612602143
+      cuboard (1)_17: -5117355327734143414
+      cuboard (1)_18: 5672834113382573055
+      cuboard (1)_2: 604271377648848389
+      cuboard (1)_3: -2199356397020598550
+      cuboard (1)_4: -6670593403251483488
+      cuboard (1)_5: 7652828013737803042
+      cuboard (1)_6: -9044849686141119454
+      cuboard (1)_7: 9192726445465710096
+      cuboard (1)_8: 4633008532585046850
+      cuboard (1)_9: -3441000364524777275
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
