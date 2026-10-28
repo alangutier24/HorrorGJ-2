@@ -1232,7 +1232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &276349219
 Transform:
   m_ObjectHideFlags: 0
@@ -1709,7 +1709,7 @@ MonoBehaviour:
   m_Intensity: 0.75
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 179f0ef9000000003d2e3acbbdce7a45fd4df267
+  m_ApplyToSortingLayers: 179f0ef9000000003d2e3acb
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2084,7 +2084,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &468165839
 Transform:
   m_ObjectHideFlags: 0
@@ -2156,7 +2156,7 @@ MonoBehaviour:
   m_Intensity: 0.25
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000179f0ef93d2e3acb5f8a5706bdce7a45fd4df267
+  m_ApplyToSortingLayers: 179f0ef9000000003d2e3acb
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2203,7 +2203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &489133876
 Transform:
   m_ObjectHideFlags: 0
@@ -2594,7 +2594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 513706577220766022, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 513706577220766022, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2606,7 +2606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 737811632955930510, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1225780455527244001, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2614,7 +2614,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1225780455527244001, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1876200061287287139, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_Value
@@ -2642,7 +2642,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1915578513644099804, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1915578513644099804, guid: 8344ac633e7c844289975a2f83d46f47, type: 3}
       propertyPath: m_AnchorMin.x
@@ -3144,13 +3144,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616041475}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -74.42, y: 60.35, z: 0}
-  m_LocalScale: {x: 3.2, y: 3.2, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.48133337, y: 5.676666, z: 0}
+  m_LocalScale: {x: 0.21333332, y: 0.21333332, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 731445620}
-  m_Father: {fileID: 1185395547}
+  m_Father: {fileID: 767663716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &616041477
 MonoBehaviour:
@@ -3921,7 +3921,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &767663716
 Transform:
   m_ObjectHideFlags: 0
@@ -3936,6 +3936,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2011377853}
+  - {fileID: 616041476}
   m_Father: {fileID: 1185395547}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &767663717
@@ -4418,7 +4419,7 @@ MonoBehaviour:
   m_Intensity: 3
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 179f0ef9bdce7a45fd4df267
+  m_ApplyToSortingLayers: 179f0ef9000000003d2e3acb
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -5687,7 +5688,6 @@ Transform:
   - {fileID: 489133876}
   - {fileID: 368537841}
   - {fileID: 1449528718}
-  - {fileID: 616041476}
   - {fileID: 767663716}
   - {fileID: 142252184}
   - {fileID: 901584872}
