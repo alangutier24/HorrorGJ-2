@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
                                     curObjective = bandagesScene.objective;
                                     bandagesScene.enabled = true;
                                     player.StopMovement();
+                                    player.BlockMovement();
                                 }
                             }
                             break;
@@ -168,6 +169,7 @@ public class GameManager : MonoBehaviour
                                     laptopCollider.enabled = true;
                                     laptop.enabled = true;
                                     player.StopMovement();
+                                    player.BlockMovement();
                                 }
                             }
                             break;
@@ -219,6 +221,7 @@ public class GameManager : MonoBehaviour
                     {
                         gameState = GameState.Play;
                         ObjectiveManager.Instance.doneShowingObjective = false;
+                        player.UnblockMovement();
                     }
                 }
             break;  

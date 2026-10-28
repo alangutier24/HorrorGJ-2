@@ -48,6 +48,9 @@ TagManager:
   - name: Object
     uniqueID: 3409587773
     locked: 0
+  - name: Pick Up Item
+    uniqueID: 1778648513
+    locked: 0
   - name: Player
     uniqueID: 106400351
     locked: 0

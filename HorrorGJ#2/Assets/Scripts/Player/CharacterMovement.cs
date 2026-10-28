@@ -14,6 +14,8 @@ public class CharacterMovement : MonoBehaviour
     static readonly int IsIdleLightDirectionHash = Animator.StringToHash("IdleLightDirection");
     static readonly int DirectionHash   = Animator.StringToHash("Direction");
     static readonly int hasLightHash   = Animator.StringToHash("HasLight");
+    static readonly int isBleedingWalkHash = Animator.StringToHash("IsBleedingWalk");
+    static readonly int isBleedingIdleHash = Animator.StringToHash("IsBleedingIdle");
 
     [FormerlySerializedAs("light")]
     [SerializeField] public Light2D playerLight;
@@ -72,7 +74,7 @@ public class CharacterMovement : MonoBehaviour
         SetFacing(Facing8);
         playerLight.enabled = false;
 
-        animator.SetBool(IsIdleHash, true);
+        animator.SetBool(isBleedingIdleHash, true);
         animator.SetBool(hasLightHash, false);
     }
  
@@ -110,9 +112,24 @@ public class CharacterMovement : MonoBehaviour
         IsRunning = runAction.action.IsPressed();
         lightRequested = switchLight.action.WasPressedThisFrame();
     }
- 
+
+    private bool movementBlocked = false;
+    public void BlockMovement()
+    {
+        movementBlocked = true;
+    }
+    public void UnblockMovement()
+    {
+        movementBlocked = false;
+    }
+    public bool IsMovementBlocked()
+    {
+        return movementBlocked;
+    }
     public void UpdateMovement()
     {       
+        if(movementBlocked)
+            return;
         if (IsMoving)
         {
             float speed = IsRunning? runSpeed : moveSpeed;
@@ -123,7 +140,6 @@ public class CharacterMovement : MonoBehaviour
             velocity = Vector2.zero;
         }
     }
-
     public void UpdateLight()
     {
         if (!hasLight) return;
@@ -156,7 +172,7 @@ public class CharacterMovement : MonoBehaviour
         // }
 
     }
-
+    public bool bleeding = true;
     public void UpdateAnimations()
     {
         if (IsMoving)
@@ -166,8 +182,39 @@ public class CharacterMovement : MonoBehaviour
             FacingIndex = ((Mathf.RoundToInt(angle / 45f) % 8) + 8) % 8;
         }
 
-        animator.SetBool(IsIdleHash, !IsMoving);
-        animator.SetBool(IsWalkingHash, IsMoving);
+        if(bleeding)
+        {
+            if (IsMoving)
+            {
+                animator.SetBool(isBleedingIdleHash, false);
+                animator.SetBool(isBleedingWalkHash, true);
+            }
+            else
+            {
+                animator.SetBool(isBleedingWalkHash, false);
+                animator.SetBool(isBleedingIdleHash, true);
+            }           
+        }
+        else
+        {
+            if(IsMoving)
+            {
+                animator.SetBool(IsWalkingHash, true);
+                animator.SetBool(IsIdleHash, false);
+                animator.SetBool(isBleedingWalkHash, false);
+                animator.SetBool(isBleedingIdleHash, false);
+            }
+            else
+            {
+                animator.SetBool(IsWalkingHash, false);
+                animator.SetBool(IsIdleHash, true);
+                animator.SetBool(isBleedingWalkHash, false);
+                animator.SetBool(isBleedingIdleHash, false);
+            }
+        }
+        
+
+
         animator.SetBool(hasLightHash, hasLight);
         animator.SetBool(IsIdleLightHash, !IsMoving && hasLight);
         animator.SetFloat(DirectionHash, FacingIndex);
