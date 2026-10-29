@@ -1,0 +1,4 @@
+repository "Game of Life/Game of Life@20067514466103@cloud"
+  path "/"
+    br "/main"
+    co "/main"
