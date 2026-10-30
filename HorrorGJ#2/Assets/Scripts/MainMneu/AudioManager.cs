@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour
         var src = Prepare(sound);
         if (src == null) return null;
         src.spatialBlend = 0f;            // 2D
-        src.Play();
+        src.PlayOneShot(src.clip);
         return src;
     }
 

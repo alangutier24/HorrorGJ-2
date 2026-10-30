@@ -51,14 +51,17 @@ TagManager:
   - name: Pick Up Item
     uniqueID: 1778648513
     locked: 0
+  - name: Wall
+    uniqueID: 1743932925
+    locked: 0
+  - name: House
+    uniqueID: 752523685
+    locked: 0
   - name: Player
     uniqueID: 106400351
     locked: 0
   - name: Enemy
     uniqueID: 1165676221
-    locked: 0
-  - name: Wall
-    uniqueID: 1743932925
     locked: 0
   m_RenderingLayers:
   - Default

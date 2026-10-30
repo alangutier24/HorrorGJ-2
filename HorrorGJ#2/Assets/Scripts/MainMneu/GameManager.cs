@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public CharacterMovement player;
     [SerializeField] public SoundDefinition LabMusic; 
     [SerializeField] public SoundDefinition MainMenuMusic;
+    [SerializeField] public SoundDefinition MonsterMusic;
     [SerializeField] public SoundDefinition startingDialogueSfx;  
     [SerializeField] public WakingUpScene wakingUpScene;
     [SerializeField] public BandagesScene bandagesScene;
@@ -185,16 +186,17 @@ public class GameManager : MonoBehaviour
                         //         }
                         //     }
                         //     break;
-                        // case Episode.Episode4:
-                        //     {
-                        //         if(!episode4Started)
-                        //         {
-                        //             episode4Started = true;
-                        //             StoryManager.Instance.storyState = StoryManager.StoryState.House;
-                        //             curObjective = houseScene.objective;
-                        //         }
-                        //     }
-                        //     break;
+                        case Episode.Episode4:
+                            {
+                                if(!episode4Started)
+                                {
+                                    episode4Started = true;
+                                    StoryManager.Instance.storyState = StoryManager.StoryState.House;
+                                    curObjective = houseScene.objective;
+                                    AudioManager.Instance.PlayMusic(houseScene.nearMonsterMusic);
+                                }
+                            }
+                            break;
                         case Episode.Episode11:
                             {
                                 if(!episode11Started)

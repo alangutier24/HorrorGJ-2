@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 3a56259a182cf4b7b96f1fd6f77965c5
+  productGUID: 1197de441d9194e269ffc41d07ff365c
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Game of Life
+  productName: Game Of LIfe
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -605,7 +605,7 @@ PlayerSettings:
   ps4GarlicHeapSize: 2048
   ps4ProGarlicHeapSize: 2560
   playerPrefsMaxSize: 32768
-  ps4Passcode: GOWa862nnO3GqEiYy8CTNAqXATnGr8FI
+  ps4Passcode: 5avA53LQffj4PrkHaWwXSmhfEVg6oGAS
   ps4pnSessions: 1
   ps4pnPresence: 1
   ps4pnFriends: 1
@@ -694,14 +694,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Game of Life
+  metroPackageName: Game Of LIfe
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Game of Life
+  metroApplicationDescription: Game Of LIfe
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -773,10 +773,10 @@ PlayerSettings:
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
   enableDirectStorage: 0
-  cloudProjectId: ada95ecc-a438-49e3-8f71-16fbedae406a
+  cloudProjectId: 8b4f9733-cecd-4e6e-b08d-c34b0c71fdff
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Game of Life
+  projectName: Game Of LIfe
   organizationId: alangutierrez
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

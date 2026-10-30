@@ -25,8 +25,8 @@ public class Enemy_Stalk_Behaviour : StateMachineBehaviour
 
         if(enemy.ReachedEdgeOfPlayer() && !enemy.LightOn())
         {
-            Debug.Log("Reached edge of player, switching to Chase.");
             animator.SetTrigger("Chase");
+            animator.ResetTrigger("Stalk");
         }
         else if(enemy.ReachedEdgeOfPlayer() && enemy.LightOn())
         {
@@ -38,6 +38,5 @@ public class Enemy_Stalk_Behaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("Hurt");
     }
 }

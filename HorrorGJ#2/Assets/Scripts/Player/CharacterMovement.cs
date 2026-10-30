@@ -45,6 +45,8 @@ public class CharacterMovement : MonoBehaviour
  
     [Header("Animation (optional)")]
     [SerializeField] Animator animator;
+
+    [SerializeField] public AudioClip stepSfx;
  
     Rigidbody2D rb;
     Vector2 moveInput;
@@ -284,6 +286,13 @@ public class CharacterMovement : MonoBehaviour
     public void ResetSpeed()
     {
         speedMultiplier = 1f;
+    }
+
+
+    [SerializeField] AudioSource stepSource; 
+    public void PlayStepSfx(AnimationEvent evt)
+    {
+        stepSource.PlayOneShot(stepSfx);
     }
 
 }

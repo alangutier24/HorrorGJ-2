@@ -85,6 +85,8 @@ public class PlantGuardingDoor : MonoBehaviour
 
             if(health <= 0f)
             {
+                GameManager.Instance.gameState = GameManager.GameState.Episodes;
+                GameManager.Instance.currentEpisode = GameManager.Episode.Episode4;
                 Destroy(door);
                 Destroy(gameObject);
             }

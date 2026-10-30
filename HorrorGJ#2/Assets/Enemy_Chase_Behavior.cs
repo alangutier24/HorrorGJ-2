@@ -39,6 +39,7 @@ public class Enemy_Chase_Behavior : StateMachineBehaviour
         if(ranFarEnough)
         {
             animator.SetTrigger("Stalk");
+            animator.ResetTrigger("Chase");
         }
 
     }

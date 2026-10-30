@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Game of Life.slnx",
+    "dotnet.defaultSolution": "Game Of LIfe.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
